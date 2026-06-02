@@ -154,7 +154,7 @@ function Index() {
                 },
                 {
                   n: "Mentality",
-                  body: "Compete hard, support your teammates, and play with joy.",
+                  body: "Compete hard, support your teammates, and play with heart.",
                 },
                 {
                   n: "Confidence",
