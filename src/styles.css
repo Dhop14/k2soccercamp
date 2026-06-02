@@ -1,0 +1,208 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-pitch: var(--pitch);
+  --color-pitch-foreground: var(--pitch-foreground);
+  --color-chalk: var(--chalk);
+}
+
+:root {
+  --radius: 0.25rem;
+
+  /* Bone / ivory */
+  --background: oklch(0.975 0.008 90);
+  --foreground: oklch(0.16 0.01 90);
+
+  /* Pitch — a vivid, slightly desaturated grass green */
+  --pitch: oklch(0.58 0.16 145);
+  --pitch-foreground: oklch(0.98 0.008 90);
+
+  --chalk: oklch(0.92 0.005 90);
+
+  --card: oklch(0.98 0.005 90);
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  --primary: oklch(0.16 0.01 90);
+  --primary-foreground: oklch(0.98 0.008 90);
+
+  --secondary: oklch(0.93 0.008 90);
+  --secondary-foreground: var(--foreground);
+
+  --muted: oklch(0.93 0.008 90);
+  --muted-foreground: oklch(0.45 0.012 90);
+
+  --accent: var(--pitch);
+  --accent-foreground: var(--pitch-foreground);
+
+  --destructive: oklch(0.55 0.22 27);
+  --destructive-foreground: oklch(0.98 0.008 90);
+
+  --border: oklch(0.86 0.008 90);
+  --input: oklch(0.86 0.008 90);
+  --ring: var(--pitch);
+}
+
+.dark {
+  --background: oklch(0.12 0.01 90);
+  --foreground: oklch(0.97 0.008 90);
+  --card: oklch(0.16 0.01 90);
+  --card-foreground: oklch(0.97 0.008 90);
+  --popover: oklch(0.16 0.01 90);
+  --popover-foreground: oklch(0.97 0.008 90);
+  --primary: oklch(0.97 0.008 90);
+  --primary-foreground: oklch(0.16 0.01 90);
+  --secondary: oklch(0.22 0.01 90);
+  --secondary-foreground: oklch(0.97 0.008 90);
+  --muted: oklch(0.22 0.01 90);
+  --muted-foreground: oklch(0.7 0.012 90);
+  --accent: var(--pitch);
+  --accent-foreground: var(--pitch-foreground);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: var(--pitch);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    /* Inter’s ss01/cv11 on body must not apply to Fraunces */
+    font-feature-settings: normal;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+    font-feature-settings: normal;
+  }
+  .font-sans-i  { font-family: var(--font-sans); }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+
+  /* Container */
+  .wrap {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+    max-width: 80rem;
+  }
+  @media (min-width: 768px) {
+    .wrap { padding-inline: 2.5rem; }
+  }
+
+  /* Hairline divider used in editorial sections */
+  .hairline {
+    height: 1px;
+    background-color: var(--color-border);
+  }
+
+  /* Eyebrow label */
+  .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--color-muted-foreground);
+  }
+
+  /* Marquee ticker */
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .animate-marquee {
+    animation: marquee 40s linear infinite;
+  }
+
+  /* Room for Fraunces ascenders/descenders inside the clipped marquee bar */
+  .ticker-bar {
+    overflow: hidden;
+    padding-block: 1.375rem;
+  }
+  /*
+   * Ticker + hero stats: must match exactly (italic + opsz/WONK).
+   * Upright Fraunces at opsz 72 squishes capitals like J; italic matches the ticker.
+   */
+  .type-display-sm {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.55;
+    font-feature-settings: normal;
+    font-variation-settings: "opsz" 72, "WONK" 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .hero-stats dd.type-display-sm {
+    padding-block: 0.125rem;
+    white-space: nowrap;
+  }
+
+  .ticker-bar__track.type-display-sm {
+    padding-block: 0.125rem;
+  }
+
+
+  /* Subtle fade-up on mount */
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-up {
+    animation: fade-up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+}
