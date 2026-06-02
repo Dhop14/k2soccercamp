@@ -1,0 +1,30 @@
+# Install: sudo cp scripts/k2-preview.service.example /etc/systemd/system/k2-preview.service
+#         sudo systemctl daemon-reload && sudo systemctl enable --now k2-preview
+
+[Unit]
+Description=K2 Soccer Camp (TanStack Start / Nitro)
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/k2-preview
+
+# Runtime secrets — NOT baked into the client bundle
+EnvironmentFile=/etc/k2-preview/env
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=NITRO_PRESET=node-server
+
+# Nitro node-server output (after npm run build)
+ExecStart=/usr/bin/node .output/server/index.mjs
+
+Restart=on-failure
+RestartSec=5
+
+# Hardening (adjust if your Node path or user differs)
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

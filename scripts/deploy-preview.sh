@@ -8,6 +8,7 @@ cd "$APP_DIR"
 git pull
 npm install
 npm run build
+# Runtime secrets live in /etc/k2-preview/env (systemd), not only .env — see docs/DEPLOYMENT.md
 systemctl restart k2-preview
 sleep 2
 systemctl is-active --quiet k2-preview

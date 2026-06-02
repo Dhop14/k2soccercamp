@@ -10,3 +10,35 @@ export const CAMP_VENUE_LINE = `${CAMP_VENUE_SHORT} · ${CAMP_REGION}`;
 /** Fuller placeholder for detail sections. */
 export const CAMP_VENUE_NOTE =
   "We're finalizing the field in the Morris County area. Registered families will receive the exact address and directions before camp starts.";
+
+export const CAMP_DATES_LABEL = "July 13–16, 2026";
+
+export const CAMP_TUITION_LABEL = "$225 per player";
+
+export const CAMP_GRADES = [3, 4, 5, 6, 7, 8] as const;
+
+/** All registrations collect current school-year grade (stored in `grade_basis`). */
+export const REGISTRATION_GRADE_BASIS = "current" as const;
+
+export type CampGrade = (typeof CAMP_GRADES)[number];
+
+export function isEligibleGrade(grade: number): grade is CampGrade {
+  return CAMP_GRADES.includes(grade as CampGrade);
+}
+
+export const CAMP_MIN_AGE = 8;
+export const CAMP_MAX_AGE = 15;
+
+/** Liability / participation release — attorney review required before production. */
+export const WAIVER_VERSION = "2026-06-01";
+
+/** Camper health & safety attestation (collected for camp operations, not NJ youth-camp filing). */
+export const HEALTH_FORM_VERSION = "2026-06-02";
+
+/** Emergency medical treatment authorization when a parent cannot be reached. */
+export const EMERGENCY_CONSENT_VERSION = "2026-06-02";
+
+export const REGISTRATION_CONTACT_EMAIL = "info@k2soccercamp.com";
+
+export const SKILL_LEVELS = ["Beginner", "Intermediate", "Advanced"] as const;
+

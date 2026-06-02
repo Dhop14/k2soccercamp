@@ -65,7 +65,8 @@ function Contact() {
             Ready to register?
           </h2>
           <p className="mt-4 max-w-lg text-background/70">
-            Use our quick online form — takes about two minutes. We'll follow up by email to confirm and send additional information.
+            Use our quick online form — about two minutes per player. Register each player
+            separately; mention siblings in the notes field for discount coordination.
           </p>
           <Link
             to="/register"

@@ -35,9 +35,20 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col justify-between gap-2 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row">
+        <div className="mt-16 flex flex-col justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:items-center">
           <span>© {new Date().getFullYear()} K2 Soccer Camp. All rights reserved.</span>
-          <span>Built with care in New Jersey.</span>
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
+            <Link to="/waiver" className="hover:text-pitch">
+              Waiver
+            </Link>
+            <Link to="/health-emergency" className="hover:text-pitch">
+              Health & Emergency
+            </Link>
+            <Link to="/privacy" className="hover:text-pitch">
+              Privacy
+            </Link>
+            <span>Built with care in New Jersey.</span>
+          </div>
         </div>
       </div>
     </footer>

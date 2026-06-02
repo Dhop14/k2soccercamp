@@ -14,42 +14,135 @@ export type Database = {
   }
   public: {
     Tables: {
+      camp_settings: {
+        Row: {
+          id: string
+          max_spots: number
+          registrations_open: boolean
+          updated_at: string
+          waitlist_enabled: boolean
+        }
+        Insert: {
+          id?: string
+          max_spots?: number
+          registrations_open?: boolean
+          updated_at?: string
+          waitlist_enabled?: boolean
+        }
+        Update: {
+          id?: string
+          max_spots?: number
+          registrations_open?: boolean
+          updated_at?: string
+          waitlist_enabled?: boolean
+        }
+        Relationships: []
+      }
       registrations: {
         Row: {
+          activity_restrictions: string | null
+          allergies: string
           created_at: string
+          eligibility_ack: boolean
           email: string
-          emergency_contact: string | null
+          emergency_consent_accepted_at: string
+          emergency_consent_version: string
+          emergency_contact: string
+          emergency_contact_name: string
+          emergency_contact_phone: string
+          grade_basis: string
+          health_form_accepted_at: string
+          health_form_version: string
           id: string
+          immunization_notes: string | null
+          immunization_status: string | null
+          medical_conditions: string | null
+          medications: string | null
           notes: string | null
           parent_name: string
           phone: string
+          photo_release: boolean
+          physician_name: string | null
+          physician_phone: string | null
           player_age: number
+          player_grade: number
           player_name: string
+          secondary_emergency_contact: string | null
+          sibling_note: string | null
           skill_level: string | null
+          status: string
+          waiver_accepted_at: string
+          waiver_version: string
         }
         Insert: {
+          activity_restrictions?: string | null
+          allergies: string
           created_at?: string
+          eligibility_ack: boolean
           email: string
-          emergency_contact?: string | null
+          emergency_consent_accepted_at?: string
+          emergency_consent_version: string
+          emergency_contact: string
+          emergency_contact_name: string
+          emergency_contact_phone: string
+          grade_basis: string
+          health_form_accepted_at?: string
+          health_form_version: string
           id?: string
+          immunization_notes?: string | null
+          immunization_status: string | null
+          medical_conditions?: string | null
+          medications?: string | null
           notes?: string | null
           parent_name: string
           phone: string
+          photo_release?: boolean
+          physician_name?: string | null
+          physician_phone?: string | null
           player_age: number
+          player_grade: number
           player_name: string
+          secondary_emergency_contact?: string | null
+          sibling_note?: string | null
           skill_level?: string | null
+          status?: string
+          waiver_accepted_at?: string
+          waiver_version: string
         }
         Update: {
+          activity_restrictions?: string | null
+          allergies?: string
           created_at?: string
+          eligibility_ack?: boolean
           email?: string
-          emergency_contact?: string | null
+          emergency_consent_accepted_at?: string
+          emergency_consent_version?: string
+          emergency_contact?: string
+          emergency_contact_name?: string
+          emergency_contact_phone?: string
+          grade_basis?: string
+          health_form_accepted_at?: string
+          health_form_version?: string
           id?: string
+          immunization_notes?: string | null
+          immunization_status?: string
+          medical_conditions?: string | null
+          medications?: string | null
           notes?: string | null
           parent_name?: string
           phone?: string
+          photo_release?: boolean
+          physician_name?: string | null
+          physician_phone?: string | null
           player_age?: number
+          player_grade?: number
           player_name?: string
+          secondary_emergency_contact?: string | null
+          sibling_note?: string | null
           skill_level?: string | null
+          status?: string
+          waiver_accepted_at?: string
+          waiver_version?: string
         }
         Relationships: []
       }
@@ -58,7 +151,44 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_registration_status: {
+        Args: Record<string, never>
+        Returns: Json
+      }
+      submit_registration: {
+        Args: {
+          p_activity_restrictions?: string
+          p_allergies: string
+          p_eligibility_ack: boolean
+          p_email: string
+          p_emergency_consent_version: string
+          p_emergency_contact: string
+          p_emergency_contact_name: string
+          p_emergency_contact_phone: string
+          p_emergency_medical_consent_ack: boolean
+          p_grade_basis: string
+          p_health_form_ack: boolean
+          p_health_form_version: string
+          p_immunization_notes?: string
+          p_immunization_status?: string | null
+          p_medical_conditions?: string
+          p_medications?: string
+          p_notes?: string
+          p_parent_name: string
+          p_phone: string
+          p_photo_release: boolean
+          p_physician_name?: string
+          p_physician_phone?: string
+          p_player_age: number
+          p_player_grade: number
+          p_player_name: string
+          p_secondary_emergency_contact?: string
+          p_sibling_note?: string
+          p_skill_level?: string
+          p_waiver_version: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
