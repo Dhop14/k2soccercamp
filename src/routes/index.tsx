@@ -58,8 +58,7 @@ function Index() {
               </h1>
               <p className="mt-8 max-w-xl text-lg text-muted-foreground text-pretty">
                 A focused summer camp for girls 3rd through 8th grade in the{" "}
-                {CAMP_REGION} area. The exact field location will be announced soon.
-                Built around real coaching, real reps, and a real love of the game.
+                {CAMP_REGION} area. Built around real coaching, real reps, and a real love of the game.
               </p>
 
               <div className="mt-10 flex flex-wrap items-center gap-4">
