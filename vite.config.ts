@@ -39,7 +39,7 @@ export default defineConfig(({ command, mode }) => {
         server: { entry: "server" },
       }),
       ...(command === "build"
-        ? [nitro({ preset: process.env.NITRO_PRESET || "node_server" })]
+        ? [nitro({ preset: process.env.NITRO_PRESET || "node-server" })]
         : []),
       react(),
     ],
