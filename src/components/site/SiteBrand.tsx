@@ -14,8 +14,7 @@ export function SiteBrand({ className, logoTitle }: SiteBrandProps) {
   return (
     <div className={cn("flex items-center gap-2.5", className)}>
       <K2Logo title={logoTitle} className={BRAND_HEIGHT} />
-      {/* Fraunces sits high in its em-box; nudge down to match the K2 mark center */}
-      <span className="translate-y-2 font-display text-lg leading-none">
+      <span className="inline-block translate-y-1 font-display text-2xl leading-none">
         Soccer Camp
       </span>
     </div>
