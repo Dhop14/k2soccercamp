@@ -13,7 +13,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "A four-day summer soccer camp for girls 3rd through 8th grade in Morris County, NJ. Venue to be announced. Led by award-winning high school coaches. $225 per player.",
+          "A four-day summer soccer camp for girls 3rd through 8th grade in Morris County, NJ. Venue TBD. Led by award-winning high school coaches. $225 per player.",
       },
       { property: "og:title", content: "K2" },
       {

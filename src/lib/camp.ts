@@ -2,7 +2,7 @@
 export const CAMP_REGION = "Morris County, NJ";
 
 /** Specific field or facility — not finalized yet. */
-export const CAMP_VENUE_SHORT = "Venue to be announced";
+export const CAMP_VENUE_SHORT = "Venue TBD";
 
 /** One-line note for cards and summaries. */
 export const CAMP_VENUE_LINE = `${CAMP_VENUE_SHORT} · ${CAMP_REGION}`;
