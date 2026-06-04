@@ -1,5 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { RegistrationCta } from "@/components/registration/RegistrationCta";
 import { SiteLayout } from "@/components/site/Layout";
+import { useRegistrationStatus } from "@/hooks/use-registration-status";
 import trainingImg from "@/assets/training.jpg";
 
 export const Route = createFileRoute("/about")({
@@ -22,6 +24,8 @@ export const Route = createFileRoute("/about")({
 });
 
 function About() {
+  const registration = useRegistrationStatus();
+
   return (
     <SiteLayout>
       <section className="border-b border-border">
@@ -123,12 +127,11 @@ function About() {
             We cap enrollment so every player gets seen. Bring water, cleats,
             shin guards, and the willingness to compete. We'll handle the rest.
           </p>
-          <Link
-            to="/register"
-            className="mt-10 inline-flex h-12 items-center rounded-full bg-pitch px-6 text-sm font-medium text-pitch-foreground"
-          >
-            Reserve a spot
-          </Link>
+          <RegistrationCta
+            open={registration.open}
+            variant="pitch"
+            className="mt-10"
+          />
         </div>
       </section>
     </SiteLayout>

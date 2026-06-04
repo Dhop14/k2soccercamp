@@ -13,7 +13,10 @@
     "start": "node .output/server/index.mjs",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "registration:status": "node scripts/set-registration.mjs status",
+    "registration:open": "node scripts/set-registration.mjs open",
+    "registration:close": "node scripts/set-registration.mjs close"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

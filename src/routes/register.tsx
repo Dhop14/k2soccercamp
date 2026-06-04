@@ -36,9 +36,10 @@ import {
   WAIVER_VERSION,
 } from "@/lib/camp";
 import {
-  getRegistrationStatus,
   submitRegistration,
 } from "@/lib/api/registration.functions";
+import { RegistrationStatusBadge } from "@/components/registration/RegistrationStatusBadge";
+import { useRegistrationStatus } from "@/hooks/use-registration-status";
 import {
   type RegistrationFormInput,
   type RegistrationFormValues,
@@ -46,7 +47,6 @@ import {
 } from "@/lib/registration-schema";
 
 export const Route = createFileRoute("/register")({
-  loader: () => getRegistrationStatus(),
   head: () => ({
     meta: [
       { title: "Register — K2 Soccer Camp" },
@@ -69,7 +69,7 @@ const inputClass =
   "w-full border-0 border-b border-border bg-transparent px-0 py-3 text-base outline-none transition-colors focus:border-pitch placeholder:text-muted-foreground/50";
 
 function Register() {
-  const status = Route.useLoaderData();
+  const status = useRegistrationStatus();
   const [done, setDone] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [duplicate, setDuplicate] = useState(false);
@@ -181,14 +181,7 @@ function Register() {
           <p className="mt-6 max-w-xl text-lg text-muted-foreground">
             {CAMP_DATES_LABEL} · {CAMP_REGION} · Girls 3rd–8th grade · {CAMP_TUITION_LABEL}
           </p>
-          {status.open && (
-            <p className="mt-4 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-              <span className="inline-flex items-center gap-2 rounded-full bg-pitch/10 px-3 py-1 text-xs font-medium text-pitch">
-                <span className="h-1.5 w-1.5 rounded-full bg-pitch" />
-                Registration open
-              </span>
-            </p>
-          )}
+          <RegistrationStatusBadge open={status.open} className="mt-4" />
         </div>
       </section>
 

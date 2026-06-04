@@ -2,7 +2,9 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
+import { RegistrationCta } from "@/components/registration/RegistrationCta";
 import { SiteBrand } from "@/components/site/SiteBrand";
+import { useRegistrationStatus } from "@/hooks/use-registration-status";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -13,6 +15,7 @@ const nav = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const registration = useRegistrationStatus();
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="wrap flex h-16 items-center justify-between">
@@ -32,12 +35,7 @@ export function Header() {
               {n.label}
             </Link>
           ))}
-          <Link
-            to="/register"
-            className="inline-flex h-9 items-center rounded-full bg-foreground px-4 text-sm font-medium text-background transition-transform hover:scale-[1.02]"
-          >
-            Reserve a spot
-          </Link>
+          <RegistrationCta open={registration.open} size="sm" />
         </nav>
 
         <button

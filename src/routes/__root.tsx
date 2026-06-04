@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
+import { getRegistrationStatus } from "@/lib/api/registration.functions";
+
 import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
@@ -69,6 +71,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  loader: () => getRegistrationStatus(),
   head: () => ({
     meta: [
       { charSet: "utf-8" },

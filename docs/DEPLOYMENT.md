@@ -131,8 +131,30 @@ sudo systemctl restart k2-preview
 - [ ] Resend domain verified; `RESEND_API_KEY` in runtime env
 - [ ] Turnstile keys: site key in `VITE_`, secret in runtime env
 - [ ] Waiver page to be reviewed (placeholder is not sufficient for launch)
-- [ ] `camp_settings` row in Supabase — set `registrations_open = false` when you want to close the form
+- [ ] Registration open/close via CLI (see below)
 - [ ] Test submit on live URL; confirm row in Supabase + parent confirmation + admin email with PDF to `info@k2soccercamp.com`
+
+## Open / close registration (admin CLI)
+
+Registration is controlled by `camp_settings.registrations_open` in Supabase. The register form, submit handler, and site CTAs all read this flag — no rebuild or restart required after toggling.
+
+From the app directory with `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in env:
+
+```bash
+npm run registration:status   # print current state
+npm run registration:close    # close form + update site CTAs
+npm run registration:open     # reopen
+```
+
+On the production server (runtime env file):
+
+```bash
+cd /var/www/k2-preview
+node scripts/set-registration.mjs close --env-file /etc/k2-preview/env
+node scripts/set-registration.mjs status --env-file /etc/k2-preview/env
+```
+
+Requires the service role key (not the anon key). Changes are live immediately; refresh the browser to see updated badges and buttons.
 
 ## Optional: dev without Turnstile / email
 

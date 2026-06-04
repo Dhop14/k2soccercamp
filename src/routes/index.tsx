@@ -2,9 +2,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import heroImg from "@/assets/hero.jpg";
 import ballImg from "@/assets/ball.jpg";
 import trainingImg from "@/assets/training.jpg";
+import { RegistrationCta } from "@/components/registration/RegistrationCta";
+import { RegistrationStatusBadge } from "@/components/registration/RegistrationStatusBadge";
 import { SiteLayout } from "@/components/site/Layout";
+import { useRegistrationStatus } from "@/hooks/use-registration-status";
 import { CAMP_REGION, CAMP_VENUE_SHORT } from "../lib/camp";
-import { ArrowUpRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,6 +39,8 @@ const tickerItems = [
 ];
 
 function Index() {
+  const registration = useRegistrationStatus();
+
   return (
     <SiteLayout>
       {/* HERO */}
@@ -46,10 +50,7 @@ function Index() {
             <div className="animate-fade-up">
               <div className="flex flex-wrap items-center gap-3">
                 <p className="eyebrow">North Jersey · July 13th–16th, 2026</p>
-                <span className="inline-flex items-center gap-2 rounded-full bg-pitch/10 px-3 py-1 text-xs font-medium text-pitch">
-                  <span className="h-1.5 w-1.5 rounded-full bg-pitch" />
-                  Registration open
-                </span>
+                <RegistrationStatusBadge open={registration.open} />
               </div>
               <h1 className="mt-6 font-display text-[clamp(2.75rem,7vw,6rem)] leading-[0.95] tracking-tight text-balance">
                 Four days.<br />
@@ -62,13 +63,7 @@ function Index() {
               </p>
 
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <Link
-                  to="/register"
-                  className="group inline-flex h-12 items-center gap-2 rounded-full bg-foreground px-6 text-sm font-medium text-background transition-transform hover:scale-[1.02]"
-                >
-                  Reserve a spot
-                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </Link>
+                <RegistrationCta open={registration.open} showIcon />
                 <Link
                   to="/about"
                   className="inline-flex h-12 items-center gap-2 rounded-full border border-border px-6 text-sm font-medium hover:border-foreground"
@@ -222,13 +217,13 @@ function Index() {
               We keep groups small so every player gets real coaching attention.
               Reserve your spot before the week fills up.
             </p>
-            <Link
-              to="/register"
-              className="mt-10 inline-flex h-12 items-center gap-2 rounded-full bg-pitch px-6 text-sm font-medium text-pitch-foreground transition-transform hover:scale-[1.02]"
-            >
-              Register your player
-              <ArrowUpRight className="h-4 w-4" />
-            </Link>
+            <RegistrationCta
+              open={registration.open}
+              variant="pitch"
+              openLabel="Register your player"
+              className="mt-10"
+              showIcon
+            />
           </div>
           <div className="md:col-span-5">
             <img

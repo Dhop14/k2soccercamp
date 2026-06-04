@@ -1,5 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { RegistrationCta } from "@/components/registration/RegistrationCta";
 import { SiteLayout } from "@/components/site/Layout";
+import { useRegistrationStatus } from "@/hooks/use-registration-status";
 import { Mail, Phone, MapPin } from "lucide-react";
 
 export const Route = createFileRoute("/contact")({
@@ -18,6 +20,8 @@ export const Route = createFileRoute("/contact")({
 });
 
 function Contact() {
+  const registration = useRegistrationStatus();
+
   return (
     <SiteLayout>
       <section className="wrap py-20 md:py-28">
@@ -62,18 +66,21 @@ function Contact() {
 
         <div className="mt-16 rounded-sm bg-foreground p-10 text-background md:p-16">
           <h2 className="font-display text-3xl md:text-4xl text-balance">
-            Ready to register?
+            {registration.open ? "Ready to register?" : "Registration is closed"}
           </h2>
           <p className="mt-4 max-w-lg text-background/70">
-            Use our quick online form — about two minutes per player. Register each player
-            separately; mention siblings in the notes field for discount coordination.
+            {registration.open
+              ? "Use our quick online form — about two minutes per player. Register each player separately; mention siblings in the notes field for discount coordination."
+              : "Online registration is closed for now. Email or call us and we'll help from there."}
           </p>
-          <Link
-            to="/register"
-            className="mt-8 inline-flex h-12 items-center rounded-full bg-pitch px-6 text-sm font-medium text-pitch-foreground"
-          >
-            Go to registration
-          </Link>
+          <RegistrationCta
+            open={registration.open}
+            variant="pitch"
+            openLabel="Go to registration"
+            closedLabel="Registration closed"
+            closedTo="/register"
+            className="mt-8"
+          />
         </div>
       </section>
     </SiteLayout>
