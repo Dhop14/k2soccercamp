@@ -1,12 +1,5 @@
--- Immunization status is optional (no longer tied to NJ youth camp / SSYC requirements).
+-- Fix typo p_medicical_conditions -> p_medical_conditions in submit_registration INSERT.
 
-ALTER TABLE public.registrations
-  DROP CONSTRAINT IF EXISTS registrations_immunization_status_check;
-
-ALTER TABLE public.registrations
-  ALTER COLUMN immunization_status DROP NOT NULL;
-
--- Different parameter list than 20260602150000 creates a second overload; drop all first.
 DO $$
 DECLARE
   r RECORD;
@@ -150,3 +143,6 @@ BEGIN
   RETURN jsonb_build_object('id', v_id, 'status', 'pending');
 END;
 $$;
+
+REVOKE ALL ON FUNCTION public.submit_registration FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.submit_registration TO service_role;

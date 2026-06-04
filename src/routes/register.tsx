@@ -379,9 +379,17 @@ function Register() {
               <Fieldset legend="03 — Health & safety">
                 <p className="text-sm text-muted-foreground">
                   Helps our coaches care for your player. See{" "}
-                  <Link to="/health-emergency" className="text-pitch underline underline-offset-2">
-                    health &amp; emergency details
-                  </Link>
+                  <LegalDocumentReader
+                    title="Health & emergency care"
+                    description={`Health ${HEALTH_FORM_VERSION}, emergency ${EMERGENCY_CONSENT_VERSION}`}
+                    fullPageTo="/health-emergency"
+                    triggerLabel="health & emergency details"
+                  >
+                    <div className="space-y-12">
+                      <HealthHistoryContent />
+                      <EmergencyConsentContent />
+                    </div>
+                  </LegalDocumentReader>
                   .
                 </p>
                 <FormField

@@ -22,7 +22,7 @@ export function LegalDevNotice() {
 export function HealthDevNotice() {
   return (
     <p className="rounded-sm border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-foreground not-prose">
-      <strong>Important:</strong> Placeholder language for development. Have counsel review before
+      <strong>Important:</strong> Placeholder language for development. Review before
       camp.
     </p>
   );

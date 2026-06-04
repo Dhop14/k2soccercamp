@@ -130,7 +130,7 @@ sudo systemctl restart k2-preview
 - [ ] `VITE_SUPABASE_*` in app `.env` and **rebuilt** after changes
 - [ ] Resend domain verified; `RESEND_API_KEY` in runtime env
 - [ ] Turnstile keys: site key in `VITE_`, secret in runtime env
-- [ ] Waiver page reviewed by counsel (placeholder is not sufficient for launch)
+- [ ] Waiver page to be reviewed (placeholder is not sufficient for launch)
 - [ ] `camp_settings` row in Supabase — set `registrations_open = false` when you want to close the form
 - [ ] Test submit on live URL; confirm row in Supabase + parent confirmation + admin email with PDF to `info@k2soccercamp.com`
 

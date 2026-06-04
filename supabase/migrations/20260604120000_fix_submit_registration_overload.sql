@@ -1,12 +1,7 @@
--- Immunization status is optional (no longer tied to NJ youth camp / SSYC requirements).
+-- Migrations 20260602150000 and 20260602160000 created two submit_registration overloads
+-- (different parameter order for p_immunization_status). PostgREST cannot pick one for RPC.
+-- Keep only the latest signature (optional immunization_status).
 
-ALTER TABLE public.registrations
-  DROP CONSTRAINT IF EXISTS registrations_immunization_status_check;
-
-ALTER TABLE public.registrations
-  ALTER COLUMN immunization_status DROP NOT NULL;
-
--- Different parameter list than 20260602150000 creates a second overload; drop all first.
 DO $$
 DECLARE
   r RECORD;
@@ -150,3 +145,6 @@ BEGIN
   RETURN jsonb_build_object('id', v_id, 'status', 'pending');
 END;
 $$;
+
+REVOKE ALL ON FUNCTION public.submit_registration FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.submit_registration TO service_role;
