@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CheckCircle2, Loader2 } from "lucide-react";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import {
@@ -10,7 +10,7 @@ import {
   PrivacyPolicyContent,
   WaiverContent,
 } from "@/components/legal/legal-content";
-import { LegalDocumentReader } from "@/components/legal/LegalDocumentReader";
+import { type LegalDocKey, LegalDocumentReader } from "@/components/legal/LegalDocumentReader";
 import { TurnstileWidget, isTurnstileEnabled } from "@/components/registration/TurnstileWidget";
 import { SiteLayout } from "@/components/site/Layout";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -74,6 +74,22 @@ function Register() {
   const [serverError, setServerError] = useState<string | null>(null);
   const [duplicate, setDuplicate] = useState(false);
   const turnstileTokenRef = useRef<string | undefined>(undefined);
+  const [legalDocsRead, setLegalDocsRead] = useState<Record<LegalDocKey, boolean>>({
+    waiver: false,
+    health: false,
+    emergency: false,
+  });
+
+  const markLegalDocRead = useCallback((key: LegalDocKey) => {
+    setLegalDocsRead((prev) => (prev[key] ? prev : { ...prev, [key]: true }));
+  }, []);
+
+  const onWaiverReachedEnd = useCallback(() => markLegalDocRead("waiver"), [markLegalDocRead]);
+  const onHealthReachedEnd = useCallback(() => markLegalDocRead("health"), [markLegalDocRead]);
+  const onEmergencyReachedEnd = useCallback(
+    () => markLegalDocRead("emergency"),
+    [markLegalDocRead],
+  );
 
   const form = useForm<RegistrationFormInput, unknown, RegistrationFormValues>({
     resolver: zodResolver(registrationFormSchema),
@@ -612,7 +628,12 @@ function Register() {
                       <FormControl>
                         <Checkbox
                           checked={field.value === true}
-                          onCheckedChange={(v) => field.onChange(v === true)}
+                          disabled={!legalDocsRead.waiver}
+                          onCheckedChange={(v) => {
+                            if (legalDocsRead.waiver) {
+                              field.onChange(v === true);
+                            }
+                          }}
                         />
                       </FormControl>
                       <div className="space-y-1 leading-snug">
@@ -623,11 +644,18 @@ function Register() {
                             description={`Version ${WAIVER_VERSION}`}
                             fullPageTo="/waiver"
                             triggerLabel="Liability Waiver"
+                            documentKey="waiver"
+                            onReachedEnd={onWaiverReachedEnd}
                           >
                             <WaiverContent showRelatedForms={false} />
                           </LegalDocumentReader>{" "}
                           (version {WAIVER_VERSION}). <span className="text-pitch">*</span>
                         </FormLabel>
+                        {!legalDocsRead.waiver ? (
+                          <p className="text-xs text-muted-foreground">
+                            Open the link above and scroll to the end to enable this box.
+                          </p>
+                        ) : null}
                         <FormMessage />
                       </div>
                     </FormItem>
@@ -641,7 +669,12 @@ function Register() {
                       <FormControl>
                         <Checkbox
                           checked={field.value === true}
-                          onCheckedChange={(v) => field.onChange(v === true)}
+                          disabled={!legalDocsRead.health}
+                          onCheckedChange={(v) => {
+                            if (legalDocsRead.health) {
+                              field.onChange(v === true);
+                            }
+                          }}
                         />
                       </FormControl>
                       <div className="space-y-1 leading-snug">
@@ -652,12 +685,19 @@ function Register() {
                             description={`Version ${HEALTH_FORM_VERSION}`}
                             fullPageTo="/health-emergency"
                             triggerLabel="health information"
+                            documentKey="health"
+                            onReachedEnd={onHealthReachedEnd}
                           >
                             <HealthHistoryContent />
                           </LegalDocumentReader>{" "}
                           above is accurate (version {HEALTH_FORM_VERSION}).{" "}
                           <span className="text-pitch">*</span>
                         </FormLabel>
+                        {!legalDocsRead.health ? (
+                          <p className="text-xs text-muted-foreground">
+                            Open the link above and scroll to the end to enable this box.
+                          </p>
+                        ) : null}
                         <FormMessage />
                       </div>
                     </FormItem>
@@ -671,7 +711,12 @@ function Register() {
                       <FormControl>
                         <Checkbox
                           checked={field.value === true}
-                          onCheckedChange={(v) => field.onChange(v === true)}
+                          disabled={!legalDocsRead.emergency}
+                          onCheckedChange={(v) => {
+                            if (legalDocsRead.emergency) {
+                              field.onChange(v === true);
+                            }
+                          }}
                         />
                       </FormControl>
                       <div className="space-y-1 leading-snug">
@@ -682,12 +727,19 @@ function Register() {
                             description={`Version ${EMERGENCY_CONSENT_VERSION}`}
                             fullPageTo="/health-emergency"
                             triggerLabel="emergency authorization"
+                            documentKey="emergency"
+                            onReachedEnd={onEmergencyReachedEnd}
                           >
                             <EmergencyConsentContent />
                           </LegalDocumentReader>{" "}
                           (version {EMERGENCY_CONSENT_VERSION}).{" "}
                           <span className="text-pitch">*</span>
                         </FormLabel>
+                        {!legalDocsRead.emergency ? (
+                          <p className="text-xs text-muted-foreground">
+                            Open the link above and scroll to the end to enable this box.
+                          </p>
+                        ) : null}
                         <FormMessage />
                       </div>
                     </FormItem>
