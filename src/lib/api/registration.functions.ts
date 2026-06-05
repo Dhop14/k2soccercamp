@@ -24,8 +24,15 @@ export const submitRegistration = createServerFn({ method: "POST" })
       );
     }
 
-    if (data.website) {
-      return { ok: true as const, duplicate: false };
+    const honeypot = data.website?.trim();
+    if (honeypot) {
+      // Some browsers autofill hidden fields (e.g., state/region text).
+      // Only short-circuit bot traffic when the honeypot looks like a URL/domain.
+      const looksLikeUrl =
+        /https?:\/\//i.test(honeypot) || /\bwww\./i.test(honeypot) || /[a-z0-9-]+\.[a-z]{2,}/i.test(honeypot);
+      if (looksLikeUrl) {
+        return { ok: true as const, duplicate: false };
+      }
     }
 
     const turnstileOk = await verifyTurnstileToken(data.turnstile_token);

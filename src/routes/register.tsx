@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { PrivacyPolicyContent } from "@/components/legal/legal-content";
@@ -23,9 +23,12 @@ import {
 } from "@/lib/camp";
 import { useRegistrationStatus } from "@/hooks/use-registration-status";
 import {
+  DATA_STEP_COUNT,
+  getFirstRegistrationStepForInvalidForm,
   getRegistrationWizardState,
   REGISTRATION_WIZARD_STEPS,
   REGISTRATION_WIZARD_STEP_COUNT,
+  REVIEW_STEP_INDEX,
 } from "@/lib/registration-steps";
 import {
   type RegistrationFormInput,
@@ -51,8 +54,6 @@ export const Route = createFileRoute("/register")({
   }),
   component: Register,
 });
-
-const REVIEW_STEP_INDEX = REGISTRATION_WIZARD_STEP_COUNT - 1;
 
 function scrollToWizardTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -84,6 +85,7 @@ function Register() {
 
   const form = useForm<RegistrationFormInput, unknown, RegistrationFormValues>({
     resolver: zodResolver(registrationFormSchema),
+    shouldUnregister: false,
     defaultValues: {
       player_name: "",
       player_age: undefined,
@@ -119,19 +121,24 @@ function Register() {
     [formValues],
   );
 
-  useEffect(() => {
-    if (step > wizardState.maxReachableStep) {
-      setStep(wizardState.maxReachableStep);
-    }
-  }, [step, wizardState.maxReachableStep]);
+  const canNavigateToStep = useCallback(
+    (index: number) => {
+      if (index < 0 || index > REVIEW_STEP_INDEX) return false;
+      if (index === REVIEW_STEP_INDEX) {
+        return wizardState.completedDataSteps >= DATA_STEP_COUNT;
+      }
+      return index <= wizardState.maxReachableStep;
+    },
+    [wizardState.completedDataSteps, wizardState.maxReachableStep],
+  );
 
   const goToStep = useCallback(
     (index: number) => {
-      if (index < 0 || index > wizardState.maxReachableStep) return;
+      if (!canNavigateToStep(index)) return;
       setStep(index);
       scrollToWizardTop();
     },
-    [wizardState.maxReachableStep],
+    [canNavigateToStep],
   );
 
   const goNext = useCallback(async () => {
@@ -150,7 +157,21 @@ function Register() {
     scrollToWizardTop();
   }, []);
 
+  const onInvalid = useCallback(() => {
+    const errorStep = getFirstRegistrationStepForInvalidForm(form.getValues());
+    setStep(errorStep);
+    scrollToWizardTop();
+    const fields = REGISTRATION_WIZARD_STEPS[errorStep].fields;
+    if (fields.length > 0) {
+      void form.trigger([...fields]);
+    }
+  }, [form]);
+
   async function onSubmit(values: RegistrationFormValues) {
+    if (step !== REVIEW_STEP_INDEX) {
+      return;
+    }
+
     setServerError(null);
     setDuplicate(false);
 
@@ -224,7 +245,13 @@ function Register() {
         ) : (
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(onSubmit)}
+              onSubmit={(e) => {
+                if (step !== REVIEW_STEP_INDEX) {
+                  e.preventDefault();
+                  return;
+                }
+                void form.handleSubmit(onSubmit, onInvalid)(e);
+              }}
               className="mx-auto max-w-2xl"
               noValidate
             >
@@ -246,15 +273,19 @@ function Register() {
               />
 
               <div className="mt-10 border-t border-border pt-10">
-                <RegistrationStepPanels
-                  step={step}
-                  form={form}
-                  legalDocsRead={legalDocsRead}
-                  onWaiverReachedEnd={onWaiverReachedEnd}
-                  onHealthReachedEnd={onHealthReachedEnd}
-                  onEmergencyReachedEnd={onEmergencyReachedEnd}
-                  onEditReviewStep={goToStep}
-                />
+                {REGISTRATION_WIZARD_STEPS.map((wizardStep, index) => (
+                  <div key={wizardStep.id} hidden={step !== index}>
+                    <RegistrationStepPanels
+                      step={index}
+                      form={form}
+                      legalDocsRead={legalDocsRead}
+                      onWaiverReachedEnd={onWaiverReachedEnd}
+                      onHealthReachedEnd={onHealthReachedEnd}
+                      onEmergencyReachedEnd={onEmergencyReachedEnd}
+                      onEditReviewStep={goToStep}
+                    />
+                  </div>
+                ))}
               </div>
 
               {isReviewStep ? (

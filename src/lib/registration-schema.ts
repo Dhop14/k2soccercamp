@@ -56,7 +56,7 @@ const registrationFormBaseSchema = z.object({
   health_form_ack: z.boolean().refine((v) => v === true, { message: "Required" }),
   emergency_medical_consent_ack: z.boolean().refine((v) => v === true, { message: "Required" }),
   photo_release: z.boolean(),
-  website: z.string().max(0).optional().or(z.literal("")),
+  website: z.string().optional(),
   turnstile_token: z.string().optional(),
 });
 

@@ -529,11 +529,7 @@ export function RegistrationStepPanels({
                   <Checkbox
                     checked={field.value === true}
                     disabled={!legalDocsRead.waiver}
-                    onCheckedChange={(v) => {
-                      if (legalDocsRead.waiver) {
-                        field.onChange(v === true);
-                      }
-                    }}
+                    onCheckedChange={(v) => field.onChange(v === true)}
                   />
                 </FormControl>
                 <div className="space-y-1 leading-snug">
@@ -570,11 +566,7 @@ export function RegistrationStepPanels({
                   <Checkbox
                     checked={field.value === true}
                     disabled={!legalDocsRead.health}
-                    onCheckedChange={(v) => {
-                      if (legalDocsRead.health) {
-                        field.onChange(v === true);
-                      }
-                    }}
+                    onCheckedChange={(v) => field.onChange(v === true)}
                   />
                 </FormControl>
                 <div className="space-y-1 leading-snug">
@@ -612,11 +604,7 @@ export function RegistrationStepPanels({
                   <Checkbox
                     checked={field.value === true}
                     disabled={!legalDocsRead.emergency}
-                    onCheckedChange={(v) => {
-                      if (legalDocsRead.emergency) {
-                        field.onChange(v === true);
-                      }
-                    }}
+                    onCheckedChange={(v) => field.onChange(v === true)}
                   />
                 </FormControl>
                 <div className="space-y-1 leading-snug">
@@ -650,7 +638,10 @@ export function RegistrationStepPanels({
             render={({ field }) => (
               <FormItem className="flex flex-row items-start gap-3 space-y-0">
                 <FormControl>
-                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                  <Checkbox
+                    checked={field.value === true}
+                    onCheckedChange={(v) => field.onChange(v === true)}
+                  />
                 </FormControl>
                 <FormLabel className="font-normal">
                   I grant permission for my player to appear in camp photos and videos used for

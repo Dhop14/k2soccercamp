@@ -1,6 +1,9 @@
+import type { FieldErrors } from "react-hook-form";
+
 import {
   type RegistrationFormInput,
   isRegistrationStepFieldsComplete,
+  registrationFormSchema,
 } from "@/lib/registration-schema";
 
 export const REGISTRATION_WIZARD_STEP_COUNT = 7;
@@ -74,7 +77,6 @@ export const REGISTRATION_WIZARD_STEPS: readonly RegistrationWizardStep[] = [
       "waiver_ack",
       "health_form_ack",
       "emergency_medical_consent_ack",
-      "photo_release",
     ],
   },
   {
@@ -86,8 +88,8 @@ export const REGISTRATION_WIZARD_STEPS: readonly RegistrationWizardStep[] = [
   },
 ] as const;
 
-const REVIEW_STEP_INDEX = REGISTRATION_WIZARD_STEP_COUNT - 1;
-const DATA_STEP_COUNT = REVIEW_STEP_INDEX;
+export const REVIEW_STEP_INDEX = REGISTRATION_WIZARD_STEP_COUNT - 1;
+export const DATA_STEP_COUNT = REVIEW_STEP_INDEX;
 
 export type RegistrationWizardState = {
   /** Highest step index the user may jump to (inclusive). */
@@ -132,4 +134,46 @@ export function getRegistrationWizardState(
     completedDataSteps,
     isStepComplete,
   };
+}
+
+/** First wizard step (in order) that has a react-hook-form error after submit. */
+export function getFirstRegistrationStepWithErrors(
+  errors: FieldErrors<RegistrationFormInput>,
+): number | null {
+  for (let i = 0; i < DATA_STEP_COUNT; i++) {
+    const { fields } = REGISTRATION_WIZARD_STEPS[i];
+    if (fields.some((field) => errors[field])) {
+      return i;
+    }
+  }
+  return null;
+}
+
+/** Resolve which step to show when full-form validation fails (do not default to step 0). */
+export function getFirstRegistrationStepForInvalidForm(
+  values: RegistrationFormInput,
+): number {
+  const parsed = registrationFormSchema.safeParse(values);
+  if (!parsed.success) {
+    for (let i = 0; i < DATA_STEP_COUNT; i++) {
+      const { fields } = REGISTRATION_WIZARD_STEPS[i];
+      for (const issue of parsed.error.issues) {
+        const field = issue.path[0];
+        if (
+          typeof field === "string" &&
+          fields.includes(field as RegistrationWizardFieldName)
+        ) {
+          return i;
+        }
+      }
+    }
+  }
+
+  for (let i = 0; i < DATA_STEP_COUNT; i++) {
+    if (!isRegistrationStepFieldsComplete(REGISTRATION_WIZARD_STEPS[i].fields, values)) {
+      return i;
+    }
+  }
+
+  return REVIEW_STEP_INDEX > 0 ? REVIEW_STEP_INDEX - 1 : 0;
 }
