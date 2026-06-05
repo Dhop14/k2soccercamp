@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequest } from "@tanstack/react-start/server";
 import {
   EMERGENCY_CONSENT_VERSION,
   HEALTH_FORM_VERSION,
@@ -9,6 +10,54 @@ import { registrationSubmitInputSchema, toRegistrationInsert } from "@/lib/regis
 import { fetchRegistrationStatus } from "@/lib/registration-status.server";
 import { verifyTurnstileToken } from "@/lib/turnstile.server";
 import { getSupabaseAdmin } from "@/integrations/supabase/client.server";
+
+const SUBMISSION_WINDOW_MS = 10 * 60 * 1000;
+const MAX_SUBMISSIONS_PER_WINDOW = 4;
+
+type RateLimitBucket = {
+  count: number;
+  resetAt: number;
+};
+
+const rateLimitBuckets = new Map<string, RateLimitBucket>();
+
+function getClientIp(request: Request | undefined): string {
+  if (!request) return "unknown";
+
+  const cfIp = request.headers.get("cf-connecting-ip");
+  if (cfIp) return cfIp.trim();
+
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  if (forwardedFor) {
+    const first = forwardedFor.split(",")[0]?.trim();
+    if (first) return first;
+  }
+
+  const realIp = request.headers.get("x-real-ip");
+  if (realIp) return realIp.trim();
+
+  return "unknown";
+}
+
+function canSubmitFromClient(clientKey: string): boolean {
+  const now = Date.now();
+  const current = rateLimitBuckets.get(clientKey);
+
+  if (!current || now >= current.resetAt) {
+    rateLimitBuckets.set(clientKey, {
+      count: 1,
+      resetAt: now + SUBMISSION_WINDOW_MS,
+    });
+    return true;
+  }
+
+  if (current.count >= MAX_SUBMISSIONS_PER_WINDOW) {
+    return false;
+  }
+
+  current.count += 1;
+  return true;
+}
 
 export const getRegistrationStatus = createServerFn({ method: "GET" }).handler(
   async () => fetchRegistrationStatus(),
@@ -24,6 +73,12 @@ export const submitRegistration = createServerFn({ method: "POST" })
       );
     }
 
+    const request = getRequest();
+    const clientIp = getClientIp(request);
+    if (!canSubmitFromClient(clientIp)) {
+      throw new Error("Too many attempts. Please wait a few minutes and try again.");
+    }
+
     const honeypot = data.website?.trim();
     if (honeypot) {
       // Some browsers autofill hidden fields (e.g., state/region text).
@@ -35,7 +90,7 @@ export const submitRegistration = createServerFn({ method: "POST" })
       }
     }
 
-    const turnstileOk = await verifyTurnstileToken(data.turnstile_token);
+    const turnstileOk = await verifyTurnstileToken(data.turnstile_token, clientIp);
     if (!turnstileOk) {
       throw new Error("Bot verification failed. Please try again.");
     }

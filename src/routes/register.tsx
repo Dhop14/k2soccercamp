@@ -66,6 +66,7 @@ function Register() {
   const [serverError, setServerError] = useState<string | null>(null);
   const [duplicate, setDuplicate] = useState(false);
   const turnstileTokenRef = useRef<string | undefined>(undefined);
+  const submitIntentRef = useRef(false);
   const [legalDocsRead, setLegalDocsRead] = useState<Record<LegalDocKey, boolean>>({
     waiver: false,
     health: false,
@@ -250,6 +251,13 @@ function Register() {
                   e.preventDefault();
                   return;
                 }
+
+                if (!submitIntentRef.current) {
+                  e.preventDefault();
+                  return;
+                }
+
+                submitIntentRef.current = false;
                 void form.handleSubmit(onSubmit, onInvalid)(e);
               }}
               className="mx-auto max-w-2xl"
@@ -339,6 +347,9 @@ function Register() {
                 {isReviewStep ? (
                   <button
                     type="submit"
+                    onClick={() => {
+                      submitIntentRef.current = true;
+                    }}
                     disabled={form.formState.isSubmitting}
                     className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-foreground px-8 text-sm font-medium text-background transition-transform hover:scale-[1.01] disabled:opacity-60"
                   >
