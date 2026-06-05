@@ -2,18 +2,21 @@ import { cn } from "@/lib/utils";
 import {
   REGISTRATION_WIZARD_STEP_COUNT,
   REGISTRATION_WIZARD_STEPS,
-  registrationWizardProgressPercent,
 } from "@/lib/registration-steps";
 
 type RegistrationStepIndicatorProps = {
   currentStep: number;
   maxReachableStep: number;
+  progressPercent: number;
+  isStepComplete: (stepIndex: number) => boolean;
   onStepClick?: (index: number) => void;
 };
 
 export function RegistrationStepIndicator({
   currentStep,
   maxReachableStep,
+  progressPercent,
+  isStepComplete,
   onStepClick,
 }: RegistrationStepIndicatorProps) {
   const stepNumber = currentStep + 1;
@@ -33,22 +36,20 @@ export function RegistrationStepIndicator({
             </p>
           ) : null}
         </div>
-        <p className="eyebrow text-pitch tabular-nums">
-          {registrationWizardProgressPercent(currentStep)}%
-        </p>
+        <p className="eyebrow text-pitch tabular-nums">{progressPercent}%</p>
       </div>
 
       <div
         className="h-1 w-full overflow-hidden rounded-full bg-border"
         role="progressbar"
-        aria-valuenow={registrationWizardProgressPercent(currentStep)}
+        aria-valuenow={progressPercent}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label="Registration completion"
       >
         <div
           className="h-full bg-pitch transition-[width] duration-300 ease-out"
-          style={{ width: `${registrationWizardProgressPercent(currentStep)}%` }}
+          style={{ width: `${progressPercent}%` }}
         />
       </div>
 
@@ -56,7 +57,7 @@ export function RegistrationStepIndicator({
         {REGISTRATION_WIZARD_STEPS.map((step, index) => {
           const reachable = index <= maxReachableStep;
           const active = index === currentStep;
-          const complete = index < currentStep;
+          const complete = isStepComplete(index);
 
           return (
             <li key={step.id}>

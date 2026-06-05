@@ -23,11 +23,19 @@ import {
   SKILL_LEVELS,
   WAIVER_VERSION,
 } from "@/lib/camp";
-import type { RegistrationFormInput, RegistrationFormValues } from "@/lib/registration-schema";
+import {
+  HEALTH_NONE,
+  HEALTH_NONE_KNOWN,
+  toggleHealthQuickFill,
+} from "@/components/registration/health-quick-fill";
+import { RegistrationQuickFillButton } from "@/components/registration/RegistrationQuickFillButton";
 import { RegistrationReviewSummary } from "@/components/registration/RegistrationReviewSummary";
-
-export const registrationInputClass =
-  "w-full border-0 border-b border-border bg-transparent px-0 py-3 text-base outline-none transition-colors focus:border-pitch placeholder:text-muted-foreground/50";
+import {
+  registrationInputClass,
+  registrationSelectClass,
+  registrationTextareaClass,
+} from "@/components/registration/registration-field-styles";
+import type { RegistrationFormInput, RegistrationFormValues } from "@/lib/registration-schema";
 
 type RegistrationStepPanelsProps = {
   step: number;
@@ -48,8 +56,6 @@ export function RegistrationStepPanels({
   onEmergencyReachedEnd,
   onEditReviewStep,
 }: RegistrationStepPanelsProps) {
-  const inputClass = registrationInputClass;
-
   switch (step) {
     case 0:
       return (
@@ -63,7 +69,7 @@ export function RegistrationStepPanels({
                   Player name <span className="text-pitch">*</span>
                 </FormLabel>
                 <FormControl>
-                  <input {...field} autoComplete="name" className={inputClass} required />
+                  <input {...field} autoComplete="name" className={registrationInputClass} required />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -85,7 +91,7 @@ export function RegistrationStepPanels({
                       onChange={(e) =>
                         field.onChange(e.target.value ? Number(e.target.value) : undefined)
                       }
-                      className={inputClass}
+                      className={registrationSelectClass}
                       required
                     >
                       <option value="">Select…</option>
@@ -118,7 +124,7 @@ export function RegistrationStepPanels({
                       onChange={(e) =>
                         field.onChange(e.target.value ? Number(e.target.value) : undefined)
                       }
-                      className={inputClass}
+                      className={registrationInputClass}
                       required
                     />
                   </FormControl>
@@ -134,7 +140,7 @@ export function RegistrationStepPanels({
               <FormItem>
                 <FormLabel>Skill level (optional)</FormLabel>
                 <FormControl>
-                  <select {...field} className={inputClass}>
+                  <select {...field} className={registrationSelectClass}>
                     <option value="">Select…</option>
                     {SKILL_LEVELS.map((o) => (
                       <option key={o} value={o}>
@@ -162,7 +168,7 @@ export function RegistrationStepPanels({
                   Your name <span className="text-pitch">*</span>
                 </FormLabel>
                 <FormControl>
-                  <input {...field} autoComplete="name" className={inputClass} required />
+                  <input {...field} autoComplete="name" className={registrationInputClass} required />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -182,7 +188,7 @@ export function RegistrationStepPanels({
                       {...field}
                       type="email"
                       autoComplete="email"
-                      className={inputClass}
+                      className={registrationInputClass}
                       required
                     />
                   </FormControl>
@@ -203,7 +209,7 @@ export function RegistrationStepPanels({
                       {...field}
                       type="tel"
                       autoComplete="tel"
-                      className={inputClass}
+                      className={registrationInputClass}
                       required
                     />
                   </FormControl>
@@ -223,7 +229,7 @@ export function RegistrationStepPanels({
                     {...field}
                     rows={2}
                     placeholder="Registering with a sibling? Note their name here for discount coordination."
-                    className={inputClass}
+                    className={registrationTextareaClass}
                   />
                 </FormControl>
                 <FormMessage />
@@ -256,15 +262,25 @@ export function RegistrationStepPanels({
             name="allergies"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Allergies <span className="text-pitch">*</span>
-                </FormLabel>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <FormLabel>
+                    Allergies <span className="text-pitch">*</span>
+                  </FormLabel>
+                  <RegistrationQuickFillButton
+                    label="None known"
+                    active={field.value?.trim() === HEALTH_NONE_KNOWN}
+                    onClick={() => {
+                      toggleHealthQuickFill(field.value, HEALTH_NONE_KNOWN, field.onChange);
+                      form.clearErrors("allergies");
+                    }}
+                  />
+                </div>
                 <FormControl>
                   <textarea
                     {...field}
                     rows={2}
-                    placeholder='List all known allergies and reactions, or write "None known"'
-                    className={inputClass}
+                    placeholder="List all known allergies and reactions"
+                    className={registrationTextareaClass}
                     required
                   />
                 </FormControl>
@@ -277,13 +293,22 @@ export function RegistrationStepPanels({
             name="medical_conditions"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Medical conditions</FormLabel>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <FormLabel>Medical conditions</FormLabel>
+                  <RegistrationQuickFillButton
+                    label="None known"
+                    active={field.value?.trim() === HEALTH_NONE_KNOWN}
+                    onClick={() =>
+                      toggleHealthQuickFill(field.value, HEALTH_NONE_KNOWN, field.onChange)
+                    }
+                  />
+                </div>
                 <FormControl>
                   <textarea
                     {...field}
                     rows={2}
                     placeholder="Asthma, seizures, diabetes, recent injuries, etc."
-                    className={inputClass}
+                    className={registrationTextareaClass}
                   />
                 </FormControl>
                 <FormMessage />
@@ -295,13 +320,22 @@ export function RegistrationStepPanels({
             name="medications"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Medications & devices</FormLabel>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <FormLabel>Medications & devices</FormLabel>
+                  <RegistrationQuickFillButton
+                    label="None known"
+                    active={field.value?.trim() === HEALTH_NONE_KNOWN}
+                    onClick={() =>
+                      toggleHealthQuickFill(field.value, HEALTH_NONE_KNOWN, field.onChange)
+                    }
+                  />
+                </div>
                 <FormControl>
                   <textarea
                     {...field}
                     rows={2}
                     placeholder="Daily meds, inhaler, EpiPen, when/how used"
-                    className={inputClass}
+                    className={registrationTextareaClass}
                   />
                 </FormControl>
                 <FormMessage />
@@ -313,12 +347,21 @@ export function RegistrationStepPanels({
             name="activity_restrictions"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Activity restrictions</FormLabel>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <FormLabel>Activity restrictions</FormLabel>
+                  <RegistrationQuickFillButton
+                    label="None"
+                    active={field.value?.trim() === HEALTH_NONE}
+                    onClick={() =>
+                      toggleHealthQuickFill(field.value, HEALTH_NONE, field.onChange)
+                    }
+                  />
+                </div>
                 <FormControl>
                   <input
                     {...field}
                     placeholder="Physician-ordered limits, if any"
-                    className={inputClass}
+                    className={registrationInputClass}
                   />
                 </FormControl>
                 <FormMessage />
@@ -333,7 +376,7 @@ export function RegistrationStepPanels({
                 <FormItem>
                   <FormLabel>Primary care physician</FormLabel>
                   <FormControl>
-                    <input {...field} className={inputClass} />
+                    <input {...field} className={registrationInputClass} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -346,7 +389,7 @@ export function RegistrationStepPanels({
                 <FormItem>
                   <FormLabel>Physician phone</FormLabel>
                   <FormControl>
-                    <input {...field} type="tel" className={inputClass} />
+                    <input {...field} type="tel" className={registrationInputClass} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -358,13 +401,22 @@ export function RegistrationStepPanels({
             name="immunization_notes"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Additional health notes (optional)</FormLabel>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <FormLabel>Additional health notes (optional)</FormLabel>
+                  <RegistrationQuickFillButton
+                    label="None"
+                    active={field.value?.trim() === HEALTH_NONE}
+                    onClick={() =>
+                      toggleHealthQuickFill(field.value, HEALTH_NONE, field.onChange)
+                    }
+                  />
+                </div>
                 <FormControl>
                   <textarea
                     {...field}
                     rows={2}
                     placeholder="Anything else staff should know (e.g. recent injury, vaccination concerns)"
-                    className={inputClass}
+                    className={registrationTextareaClass}
                   />
                 </FormControl>
                 <FormMessage />
@@ -387,7 +439,7 @@ export function RegistrationStepPanels({
                     Contact name <span className="text-pitch">*</span>
                   </FormLabel>
                   <FormControl>
-                    <input {...field} className={inputClass} required />
+                    <input {...field} className={registrationInputClass} required />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -402,7 +454,7 @@ export function RegistrationStepPanels({
                     Contact phone <span className="text-pitch">*</span>
                   </FormLabel>
                   <FormControl>
-                    <input {...field} type="tel" className={inputClass} required />
+                    <input {...field} type="tel" className={registrationInputClass} required />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -416,7 +468,7 @@ export function RegistrationStepPanels({
               <FormItem>
                 <FormLabel>Secondary emergency contact (optional)</FormLabel>
                 <FormControl>
-                  <input {...field} placeholder="Name and phone" className={inputClass} />
+                  <input {...field} placeholder="Name and phone" className={registrationInputClass} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -435,7 +487,7 @@ export function RegistrationStepPanels({
               <FormItem>
                 <FormLabel>Additional notes (optional)</FormLabel>
                 <FormControl>
-                  <textarea {...field} rows={3} className={inputClass} />
+                  <textarea {...field} rows={3} className={registrationTextareaClass} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

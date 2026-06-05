@@ -149,6 +149,21 @@
     background-color: var(--color-border);
   }
 
+  /* Registration native selects — white field + dropdown list where supported */
+  .registration-select {
+    background-color: #fff;
+    color: var(--color-foreground);
+  }
+  .registration-select option {
+    background-color: #fff;
+    color: var(--color-foreground);
+  }
+  .dark .registration-select,
+  .dark .registration-select option {
+    background-color: var(--color-card);
+    color: var(--color-card-foreground);
+  }
+
   /* Eyebrow label */
   .eyebrow {
     font-size: 0.72rem;

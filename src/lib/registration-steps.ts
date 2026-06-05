@@ -1,4 +1,7 @@
-import type { RegistrationFormInput } from "@/lib/registration-schema";
+import {
+  type RegistrationFormInput,
+  isRegistrationStepFieldsComplete,
+} from "@/lib/registration-schema";
 
 export const REGISTRATION_WIZARD_STEP_COUNT = 7;
 
@@ -83,6 +86,50 @@ export const REGISTRATION_WIZARD_STEPS: readonly RegistrationWizardStep[] = [
   },
 ] as const;
 
-export function registrationWizardProgressPercent(stepIndex: number): number {
-  return Math.round(((stepIndex + 1) / REGISTRATION_WIZARD_STEP_COUNT) * 100);
+const REVIEW_STEP_INDEX = REGISTRATION_WIZARD_STEP_COUNT - 1;
+const DATA_STEP_COUNT = REVIEW_STEP_INDEX;
+
+export type RegistrationWizardState = {
+  /** Highest step index the user may jump to (inclusive). */
+  maxReachableStep: number;
+  progressPercent: number;
+  completedDataSteps: number;
+  isStepComplete: (stepIndex: number) => boolean;
+};
+
+/** Progress and navigation derived from validated field values, not the active step. */
+export function getRegistrationWizardState(
+  values: RegistrationFormInput,
+): RegistrationWizardState {
+  let completedDataSteps = 0;
+  let firstIncomplete = REVIEW_STEP_INDEX;
+
+  for (let i = 0; i < DATA_STEP_COUNT; i++) {
+    const step = REGISTRATION_WIZARD_STEPS[i];
+    const complete = isRegistrationStepFieldsComplete(step.fields, values);
+    if (complete) {
+      completedDataSteps++;
+    } else if (firstIncomplete === REVIEW_STEP_INDEX) {
+      firstIncomplete = i;
+    }
+  }
+
+  const allDataComplete = completedDataSteps === DATA_STEP_COUNT;
+  const maxReachableStep = allDataComplete ? REVIEW_STEP_INDEX : firstIncomplete;
+  const progressPercent = allDataComplete
+    ? 100
+    : Math.round((completedDataSteps / REGISTRATION_WIZARD_STEP_COUNT) * 100);
+
+  const isStepComplete = (stepIndex: number) => {
+    const step = REGISTRATION_WIZARD_STEPS[stepIndex];
+    if (!step || step.fields.length === 0) return false;
+    return isRegistrationStepFieldsComplete(step.fields, values);
+  };
+
+  return {
+    maxReachableStep,
+    progressPercent,
+    completedDataSteps,
+    isStepComplete,
+  };
 }

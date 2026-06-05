@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { PrivacyPolicyContent } from "@/components/legal/legal-content";
@@ -23,6 +23,7 @@ import {
 } from "@/lib/camp";
 import { useRegistrationStatus } from "@/hooks/use-registration-status";
 import {
+  getRegistrationWizardState,
   REGISTRATION_WIZARD_STEPS,
   REGISTRATION_WIZARD_STEP_COUNT,
 } from "@/lib/registration-steps";
@@ -61,7 +62,6 @@ function Register() {
   const status = useRegistrationStatus();
   const [done, setDone] = useState(false);
   const [step, setStep] = useState(0);
-  const [maxReachableStep, setMaxReachableStep] = useState(0);
   const [serverError, setServerError] = useState<string | null>(null);
   const [duplicate, setDuplicate] = useState(false);
   const turnstileTokenRef = useRef<string | undefined>(undefined);
@@ -113,11 +113,26 @@ function Register() {
     },
   });
 
-  const goToStep = useCallback((index: number) => {
-    if (index < 0 || index > maxReachableStep) return;
-    setStep(index);
-    scrollToWizardTop();
-  }, [maxReachableStep]);
+  const formValues = form.watch();
+  const wizardState = useMemo(
+    () => getRegistrationWizardState(formValues),
+    [formValues],
+  );
+
+  useEffect(() => {
+    if (step > wizardState.maxReachableStep) {
+      setStep(wizardState.maxReachableStep);
+    }
+  }, [step, wizardState.maxReachableStep]);
+
+  const goToStep = useCallback(
+    (index: number) => {
+      if (index < 0 || index > wizardState.maxReachableStep) return;
+      setStep(index);
+      scrollToWizardTop();
+    },
+    [wizardState.maxReachableStep],
+  );
 
   const goNext = useCallback(async () => {
     const current = REGISTRATION_WIZARD_STEPS[step];
@@ -127,7 +142,6 @@ function Register() {
     }
     const next = Math.min(step + 1, REVIEW_STEP_INDEX);
     setStep(next);
-    setMaxReachableStep((prev) => Math.max(prev, next));
     scrollToWizardTop();
   }, [form, step]);
 
@@ -225,7 +239,9 @@ function Register() {
 
               <RegistrationStepIndicator
                 currentStep={step}
-                maxReachableStep={maxReachableStep}
+                maxReachableStep={wizardState.maxReachableStep}
+                progressPercent={wizardState.progressPercent}
+                isStepComplete={wizardState.isStepComplete}
                 onStepClick={goToStep}
               />
 

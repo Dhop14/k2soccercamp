@@ -64,6 +64,21 @@ export const registrationFormSchema = registrationFormBaseSchema;
 
 /** Raw form state (pre-parse); use with `useForm` first generic. */
 export type RegistrationFormInput = z.input<typeof registrationFormBaseSchema>;
+
+/** True when every field on this step passes the same Zod rules used on Continue. */
+export function isRegistrationStepFieldsComplete(
+  fields: readonly (keyof RegistrationFormInput)[],
+  values: RegistrationFormInput,
+): boolean {
+  if (fields.length === 0) return false;
+
+  const picker = Object.fromEntries(fields.map((field) => [field, true])) as Record<
+    keyof RegistrationFormInput,
+    true
+  >;
+
+  return registrationFormBaseSchema.pick(picker).safeParse(values).success;
+}
 /** Validated values after Zod parse; use for submit handlers. */
 export type RegistrationFormValues = z.output<typeof registrationFormBaseSchema>;
 
