@@ -30,13 +30,13 @@ export const CAMP_MIN_AGE = 8;
 export const CAMP_MAX_AGE = 15;
 
 /** Liability / participation release — attorney review required before production. */
-export const WAIVER_VERSION = "2026-06-01";
+export const WAIVER_VERSION = "2026-06-06";
 
 /** Camper health & safety attestation (collected for camp operations, not NJ youth-camp filing). */
-export const HEALTH_FORM_VERSION = "2026-06-02";
+export const HEALTH_FORM_VERSION = "2026-06-06";
 
 /** Emergency medical treatment authorization when a parent cannot be reached. */
-export const EMERGENCY_CONSENT_VERSION = "2026-06-02";
+export const EMERGENCY_CONSENT_VERSION = "2026-06-06";
 
 export const REGISTRATION_CONTACT_EMAIL = "info@k2soccercamp.com";
 

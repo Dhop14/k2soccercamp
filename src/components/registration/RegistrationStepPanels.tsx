@@ -534,7 +534,8 @@ export function RegistrationStepPanels({
                 </FormControl>
                 <div className="space-y-1 leading-snug">
                   <FormLabel className="font-normal">
-                    I have read and agree to the{" "}
+                    I am the player&apos;s parent or legal guardian, have authority to sign, and have
+                    read and agree to the{" "}
                     <LegalDocumentReader
                       title="Liability Waiver"
                       description={`Version ${WAIVER_VERSION}`}
@@ -545,7 +546,8 @@ export function RegistrationStepPanels({
                     >
                       <WaiverContent showRelatedForms={false} />
                     </LegalDocumentReader>{" "}
-                    (version {WAIVER_VERSION}). <span className="text-pitch">*</span>
+                    (version {WAIVER_VERSION}), including assumption of risk, release of
+                    liability, and related terms. <span className="text-pitch">*</span>
                   </FormLabel>
                   {!legalDocsRead.waiver ? (
                     <p className="text-xs text-muted-foreground">
@@ -571,7 +573,7 @@ export function RegistrationStepPanels({
                 </FormControl>
                 <div className="space-y-1 leading-snug">
                   <FormLabel className="font-normal">
-                    I have completed the{" "}
+                    I certify the{" "}
                     <LegalDocumentReader
                       title="Camper health information"
                       description={`Version ${HEALTH_FORM_VERSION}`}
@@ -582,7 +584,8 @@ export function RegistrationStepPanels({
                     >
                       <HealthHistoryContent />
                     </LegalDocumentReader>{" "}
-                    above is accurate (version {HEALTH_FORM_VERSION}).{" "}
+                    information I provided is complete and accurate, and I will update K2 if it
+                    changes (version {HEALTH_FORM_VERSION}).{" "}
                     <span className="text-pitch">*</span>
                   </FormLabel>
                   {!legalDocsRead.health ? (
@@ -609,7 +612,8 @@ export function RegistrationStepPanels({
                 </FormControl>
                 <div className="space-y-1 leading-snug">
                   <FormLabel className="font-normal">
-                    I authorize emergency medical treatment per the{" "}
+                    I authorize emergency medical treatment and transport if needed and if I am
+                    unreachable, per the{" "}
                     <LegalDocumentReader
                       title="Emergency medical authorization"
                       description={`Version ${EMERGENCY_CONSENT_VERSION}`}
@@ -620,7 +624,8 @@ export function RegistrationStepPanels({
                     >
                       <EmergencyConsentContent />
                     </LegalDocumentReader>{" "}
-                    (version {EMERGENCY_CONSENT_VERSION}). <span className="text-pitch">*</span>
+                    (version {EMERGENCY_CONSENT_VERSION}), and accept responsibility for emergency
+                    medical costs as described. <span className="text-pitch">*</span>
                   </FormLabel>
                   {!legalDocsRead.emergency ? (
                     <p className="text-xs text-muted-foreground">
