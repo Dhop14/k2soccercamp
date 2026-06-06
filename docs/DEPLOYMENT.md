@@ -117,8 +117,10 @@ Or manually:
 cd /var/www/k2-preview
 git pull
 npm install
-npm run build
+NODE_OPTIONS=--max-old-space-size=512 npm run build
 sudo systemctl restart k2-preview
+sudo systemctl status k2-preview --no-pager
+sudo journalctl -u k2-preview -n 60 --no-pager
 ```
 
 **Order matters:** if you add new `VITE_*` vars, rebuild. If you only change server secrets in `/etc/k2-preview/env`, restart systemd without rebuild.
