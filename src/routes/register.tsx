@@ -234,7 +234,7 @@ function Register() {
             {CAMP_DATES_LABEL} · {CAMP_REGION} · Girls 3rd–8th grade · {CAMP_TUITION_LABEL}
           </p>
           <p className="mt-3 text-sm text-muted-foreground">
-            About 8–10 minutes · {REGISTRATION_WIZARD_STEP_COUNT} steps · no payment today
+            No payment today. Payment details to follow.
           </p>
           <RegistrationStatusBadge open={status.open} className="mt-4" />
         </div>
