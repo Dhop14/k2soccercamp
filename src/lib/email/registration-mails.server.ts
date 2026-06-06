@@ -37,7 +37,7 @@ function parentBody(data: RegistrationEmailData) {
     <p>
       A copy of your registration summary is attached for your records.
     </p>
-    <p>Questions? Reply to this email or contact us at ${escapeHtml(REGISTRATION_CONTACT_EMAIL)}.</p>
+    <p>Questions? Contact us at ${escapeHtml(REGISTRATION_CONTACT_EMAIL)}.</p>
     <p>— K2 Soccer Camp</p>
   `;
 }
