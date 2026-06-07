@@ -73,7 +73,7 @@ function Index() {
                 </Link>
               </div>
 
-              <dl className="hero-stats mt-12 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-border pt-8 sm:grid-cols-3 xl:grid-cols-5">
+              <dl className="hero-stats mt-12 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-border pt-8 sm:grid-cols-3 sm:gap-x-8 sm:gap-y-6 xl:grid-cols-5">
                 <div>
                   <dt className="eyebrow">Grades</dt>
                   <dd className="type-display-sm mt-2">3–8</dd>
@@ -90,7 +90,7 @@ function Index() {
                   <dt className="eyebrow">Tuition</dt>
                   <dd className="type-display-sm mt-2">$225</dd>
                 </div>
-                <div>
+                <div className="col-span-2 sm:col-span-1">
                   <dt className="eyebrow">Location</dt>
                   <dd className="type-display-sm mt-2">{CAMP_VENUE_SHORT}</dd>
                 </div>
