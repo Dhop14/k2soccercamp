@@ -204,7 +204,8 @@
 
   .hero-stats dd.type-display-sm {
     padding-block: 0.125rem;
-    white-space: nowrap;
+    white-space: normal;
+    text-wrap: pretty;
   }
 
   .ticker-bar__track.type-display-sm {

@@ -6,7 +6,7 @@ import { RegistrationCta } from "@/components/registration/RegistrationCta";
 import { RegistrationStatusBadge } from "@/components/registration/RegistrationStatusBadge";
 import { SiteLayout } from "@/components/site/Layout";
 import { useRegistrationStatus } from "@/hooks/use-registration-status";
-import { CAMP_REGION, CAMP_VENUE_SHORT } from "../lib/camp";
+import { CAMP_HOURS_LABEL, CAMP_REGION, CAMP_VENUE_SHORT } from "../lib/camp";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -32,7 +32,8 @@ const tickerItems = [
   "Girls 3rd–8th grade",
   CAMP_REGION,
   CAMP_VENUE_SHORT,
-  "Four Days in July",
+  "July 13–16",
+  "9:00 AM – 12:00 PM",
   "All Skill Levels",
   "$225 per Player",
   "Veteran Coaches",
@@ -72,14 +73,18 @@ function Index() {
                 </Link>
               </div>
 
-              <dl className="hero-stats mt-12 flex flex-wrap gap-x-10 gap-y-6 border-t border-border pt-8 sm:gap-x-12">
+              <dl className="hero-stats mt-12 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-border pt-8 sm:grid-cols-3 xl:grid-cols-5">
                 <div>
                   <dt className="eyebrow">Grades</dt>
                   <dd className="type-display-sm mt-2">3–8</dd>
                 </div>
                 <div>
-                  <dt className="eyebrow">Days</dt>
+                  <dt className="eyebrow">Dates</dt>
                   <dd className="type-display-sm mt-2">July 13th – 16th</dd>
+                </div>
+                <div>
+                  <dt className="eyebrow">Time</dt>
+                  <dd className="type-display-sm mt-2">{CAMP_HOURS_LABEL}</dd>
                 </div>
                 <div>
                   <dt className="eyebrow">Tuition</dt>
