@@ -3,6 +3,8 @@ import { RegistrationCta } from "@/components/registration/RegistrationCta";
 import { SiteLayout } from "@/components/site/Layout";
 import { useRegistrationStatus } from "@/hooks/use-registration-status";
 import trainingImg from "@/assets/training.jpg";
+import kimImg from "@/assets/kim.jpg";
+import kurtImg from "@/assets/kurt.jpg";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -60,17 +62,23 @@ function About() {
           {/* Coach 1 */}
           <article className="group">
             <div className="aspect-[4/5] w-full overflow-hidden rounded-sm bg-muted">
-              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-foreground to-foreground/70 p-8 text-center text-background">
-                <div>
-                  <p className="eyebrow text-background/60">Coach Kim Hopping</p>
-                  <p className="mt-4 font-display text-5xl italic text-pitch">01</p>
-                </div>
-              </div>
+              <img
+                src={kimImg}
+                alt="Coach Kim Hopping"
+                width={1280}
+                height={1600}
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
             </div>
             <div className="mt-6">
               <p className="eyebrow">Coach Kim Hopping</p>
-              <h2 className="mt-2 font-display text-3xl">Varsity Coach, Old Bridge Girls Soccer</h2>
+              <h2 className="mt-2 font-display text-3xl">Head Coach, OBHS Girls Soccer</h2>
               <ul className="mt-6 space-y-3 text-muted-foreground">
+                <li className="flex gap-3">
+                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
+                  Head Coach, Old Bridge High School Girls Soccer
+                </li>
                 <li className="flex gap-3">
                   <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
                   Two-time Coach of the Year
@@ -81,33 +89,61 @@ function About() {
                 </li>
                 <li className="flex gap-3">
                   <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
-                  Coaching since 2009
+                  17+ years of coaching experience
                 </li>
                 <li className="flex gap-3">
                   <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
-                  High school varsity, year-round
+                  US Soccer Licensed Coach
                 </li>
               </ul>
+              <p className="mt-6 text-muted-foreground text-pretty">
+                Coach Kim has built a winning culture through technical detail,
+                disciplined team play, and player first leadership. Her sessions
+                are high-energy, purposeful, and designed to help girls develop
+                confidence, decision-making, and game-ready habits that carry into
+                every season.
+              </p>
             </div>
           </article>
 
           {/* Coach 2 */}
           <article className="group">
             <div className="aspect-[4/5] w-full overflow-hidden rounded-sm bg-muted">
-              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-pitch to-pitch/70 p-8 text-center text-pitch-foreground">
-                <div>
-                  <p className="eyebrow text-pitch-foreground/70">Coach Kurt Eisinger</p>
-                  <p className="mt-4 font-display text-5xl italic">02</p>
-                </div>
-              </div>
+              <img
+                src={kurtImg}
+                alt="Coach Kurt Eisinger"
+                width={1280}
+                height={1600}
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
             </div>
             <div className="mt-6">
               <p className="eyebrow">Coach Kurt Eisinger</p>
-              <h2 className="mt-2 font-display text-3xl">High School Soccer Coach</h2>
-              <p className="mt-6 text-muted-foreground">
-                Full bio coming soon. A current high school soccer coach bringing
-                additional experience, perspective, and small-group attention to
-                every camp session.
+              <h2 className="mt-2 font-display text-3xl">Varsity Assistant Coach, Morris Hills Girls Soccer</h2>
+              <ul className="mt-6 space-y-3 text-muted-foreground">
+                <li className="flex gap-3">
+                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
+                  Varsity Assistant Coach, Morris Hills Girls Soccer
+                </li>
+                <li className="flex gap-3">
+                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
+                  12 years coaching experience at the youth and high school girls level
+                </li>
+                <li className="flex gap-3">
+                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
+                  26 years of referee experience
+                </li>
+                <li className="flex gap-3">
+                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
+                  Currently coaching multiple teams in Denville and Rockaway, including
+                  Denville U16 Girls Flight 1
+                </li>
+              </ul>
+              <p className="mt-6 text-muted-foreground text-pretty">
+                Coach Kurt brings a rare blend of sideline leadership and game-level
+                perspective. From varsity girls soccer to top youth competition, he helps
+                players build confidence, sharpen decision making, and compete with purpose.
               </p>
             </div>
           </article>
@@ -137,3 +173,7 @@ function About() {
     </SiteLayout>
   );
 }
+
+
+
+
