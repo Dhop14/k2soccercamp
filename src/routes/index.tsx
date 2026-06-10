@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+﻿import { createFileRoute, Link } from "@tanstack/react-router";
 import heroImg from "@/assets/hero.jpg";
 import ballImg from "@/assets/ball.jpg";
 import trainingImg from "@/assets/training.jpg";
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          `A four-day summer soccer camp for girls 3rd through 8th grade in Morris County, NJ. Venue TBD. Led by award-winning high school coaches. ${CAMP_TUITION_LABEL}.`,
+          `A four-day summer soccer camp for girls 4th through 8th grade in Morris County, NJ at Morris Hills High School. Led by award-winning high school coaches. ${CAMP_TUITION_LABEL}.`,
       },
       { property: "og:title", content: "K2" },
       {
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/")({
 });
 
 const tickerItems = [
-  "Girls 3rd–8th grade",
+  "Girls 4th\u20138th grade",
   CAMP_REGION,
   CAMP_VENUE_SHORT,
   "July 13–16",
@@ -65,7 +65,7 @@ function Index() {
                 Elevate your game.
               </h1>
               <p className="mt-8 max-w-xl text-lg text-muted-foreground text-pretty">
-                A focused summer camp for girls 3rd through 8th grade in the{" "}
+                A focused summer camp for girls 4th through 8th grade in the{" "}
                 {CAMP_REGION} area. Built around real coaching, real reps, and a real love of the game.
               </p>
 
@@ -82,7 +82,7 @@ function Index() {
               <dl className="hero-stats mt-12 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-border pt-8 sm:grid-cols-3 sm:gap-x-8 sm:gap-y-6 xl:grid-cols-5">
                 <div>
                   <dt className="eyebrow">Grades</dt>
-                  <dd className="type-display-sm mt-2">3–8</dd>
+                  <dd className="type-display-sm mt-2">4th – 8th</dd>
                 </div>
                 <div>
                   <dt className="eyebrow">Dates</dt>

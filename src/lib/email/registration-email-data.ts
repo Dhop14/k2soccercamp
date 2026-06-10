@@ -47,7 +47,7 @@ export function registrationSummarySections(
         ["Name", data.playerName],
         [
           "Age / Grade",
-          `${data.playerAge} · Grade ${data.playerGrade} (current grade)`,
+          `${data.playerAge} · Grade ${data.playerGrade} (incoming grade)`,  
         ],
         ["Skill level", display(data.skillLevel)],
         ["Sibling note", display(data.siblingNote)],

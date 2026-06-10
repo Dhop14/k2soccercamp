@@ -24,7 +24,7 @@ const registrationFormBaseSchema = z.object({
   player_grade: z.coerce
     .number()
     .int()
-    .refine((g) => (CAMP_GRADES as readonly number[]).includes(g), "Grade must be 3–8"),
+    .refine((g) => (CAMP_GRADES as readonly number[]).includes(g), "Grade must be 4–8"),
   skill_level: z.union([z.enum(SKILL_LEVELS), z.literal("")]).optional(),
   parent_name: z.string().trim().min(1, "Required").max(120),
   email: z.string().trim().email("Invalid email").max(255),

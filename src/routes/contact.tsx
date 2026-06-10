@@ -45,16 +45,16 @@ function Contact() {
               info@k2soccercamp.com
             </p>
           </a>
-          <a
+          {/* <a
             href="tel:+19735550199"
             className="group block rounded-sm border border-border p-8 transition-colors hover:border-foreground"
           >
             <Phone className="h-5 w-5 text-pitch" />
             <p className="eyebrow mt-6">Phone</p>
             <p className="mt-2 font-sans text-xl font-medium leading-normal group-hover:text-pitch">
-              (973) 555-0199
+              (973) 349-4146, (732) 691-1605
             </p>
-          </a>
+          </a> */}
           <div className="rounded-sm border border-border p-8">
             <MapPin className="h-5 w-5 text-pitch" />
             <p className="eyebrow mt-6">Location</p>

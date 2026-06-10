@@ -10,7 +10,7 @@ export function Footer() {
           <div>
             <SiteBrand logoTitle="Soccer Camp" />
             <p className="mt-4 max-w-xs text-sm text-muted-foreground">
-              Four days of focused training for girls 3rd–8th grade. Morris County, New Jersey.
+              Four days of focused training for girls 4th–8th grade. Morris County, New Jersey.
             </p>
           </div>
 
@@ -29,7 +29,7 @@ export function Footer() {
             <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
               <li>July 13th - 16th, 2026 · 4 days</li>
               <li>Morris County, NJ</li>
-              <li>Girls, 3rd–8th grade</li>
+              <li>Girls, 4th–8th grade</li>
               <li>All Skill Levels welcome</li>
             </ul>
           </div>

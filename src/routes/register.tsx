@@ -43,7 +43,7 @@ export const Route = createFileRoute("/register")({
       {
         name: "description",
         content:
-          "Reserve your player's spot at K2. Four days in July. Girls 3rd–8th grade. $225 per player.",
+          `Reserve your player's spot at K2. Four days in July. Girls 4th–8th grade. ${CAMP_TUITION_LABEL} per player.`,
       },
       { property: "og:title", content: "Register for Camp" },
       {
@@ -231,7 +231,7 @@ function Register() {
             Save your <span className="italic text-pitch">spot</span>.
           </h1>
           <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-            {CAMP_DATES_LABEL} · {CAMP_REGION} · Girls 3rd–8th grade · {CAMP_TUITION_LABEL}
+            {CAMP_DATES_LABEL} · {CAMP_REGION} · Girls 4th–8th grade · {CAMP_TUITION_LABEL}
           </p>
           <p className="mt-3 text-sm text-muted-foreground">
             No payment today. Payment details to follow.

@@ -56,6 +56,8 @@ export function RegistrationStepPanels({
   onEmergencyReachedEnd,
   onEditReviewStep,
 }: RegistrationStepPanelsProps) {
+  const playerGradeOptions = CAMP_GRADES.filter((g) => g >= 4);
+
   switch (step) {
     case 0:
       return (
@@ -82,7 +84,7 @@ export function RegistrationStepPanels({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Current grade (3rd–8th) <span className="text-pitch">*</span>
+                    Grade (4th–8th) <span className="text-pitch">*</span>
                   </FormLabel>
                   <FormControl>
                     <select
@@ -95,7 +97,7 @@ export function RegistrationStepPanels({
                       required
                     >
                       <option value="">Select…</option>
-                      {CAMP_GRADES.map((g) => (
+                      {playerGradeOptions.map((g) => (
                         <option key={g} value={g}>
                           Grade {g}
                         </option>
@@ -512,7 +514,7 @@ export function RegistrationStepPanels({
                 </FormControl>
                 <div className="space-y-1 leading-snug">
                   <FormLabel className="font-normal">
-                    I confirm my player is a girl in grades 3–8 (current school year) and meets
+                    I confirm my player is a girl entering grades 4–8 in the fall and meets
                     camp eligibility. <span className="text-pitch">*</span>
                   </FormLabel>
                   <FormMessage />

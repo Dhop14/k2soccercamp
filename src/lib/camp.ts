@@ -1,8 +1,8 @@
 /** General region where camp will be held. */
 export const CAMP_REGION = "Morris County, NJ";
 
-/** Specific field or facility — not finalized yet. */
-export const CAMP_VENUE_SHORT = "Venue TBD";
+/** Confirmed camp venue. */
+export const CAMP_VENUE_SHORT = "Morris Hills High School";
 
 /** One-line note for cards and summaries. */
 export const CAMP_VENUE_LINE = `${CAMP_VENUE_SHORT} · ${CAMP_REGION}`;

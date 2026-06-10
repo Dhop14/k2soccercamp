@@ -80,7 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "A four-day summer soccer camp for girls 3rd through 8th grade in Morris County, NJ.",
+          "A four-day summer soccer camp for girls 4th through 8th grade in Morris County, NJ.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
