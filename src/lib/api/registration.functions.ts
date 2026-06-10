@@ -133,6 +133,7 @@ export const submitRegistration = createServerFn({ method: "POST" })
       p_player_name: insert.player_name,
       p_player_age: insert.player_age,
       p_player_grade: insert.player_grade,
+      p_shirt_size: insert.shirt_size,
       p_grade_basis: insert.grade_basis,
       p_parent_name: insert.parent_name,
       p_email: email,
@@ -149,16 +150,16 @@ export const submitRegistration = createServerFn({ method: "POST" })
       p_emergency_consent_version: insert.emergency_consent_version,
       p_health_form_ack: data.health_form_ack,
       p_emergency_medical_consent_ack: data.emergency_medical_consent_ack,
-      p_skill_level: insert.skill_level,
-      p_notes: insert.notes,
-      p_sibling_note: insert.sibling_note,
-      p_medical_conditions: insert.medical_conditions,
-      p_medications: insert.medications,
-      p_activity_restrictions: insert.activity_restrictions,
-      p_physician_name: insert.physician_name,
-      p_physician_phone: insert.physician_phone,
-      p_immunization_notes: insert.immunization_notes,
-      p_secondary_emergency_contact: insert.secondary_emergency_contact,
+      p_skill_level: insert.skill_level ?? undefined,
+      p_notes: insert.notes ?? undefined,
+      p_sibling_note: insert.sibling_note ?? undefined,
+      p_medical_conditions: insert.medical_conditions ?? undefined,
+      p_medications: insert.medications ?? undefined,
+      p_activity_restrictions: insert.activity_restrictions ?? undefined,
+      p_physician_name: insert.physician_name ?? undefined,
+      p_physician_phone: insert.physician_phone ?? undefined,
+      p_immunization_notes: insert.immunization_notes ?? undefined,
+      p_secondary_emergency_contact: insert.secondary_emergency_contact ?? undefined,
     });
 
     if (error) {
@@ -168,6 +169,9 @@ export const submitRegistration = createServerFn({ method: "POST" })
       }
       if (msg.includes("consent_required")) {
         throw new Error("Health and emergency consent are required.");
+      }
+      if (msg.includes("invalid_shirt_size")) {
+        throw new Error("Please select a valid shirt size.");
       }
       console.error("[registration] submit:", msg);
       throw new Error("Something went wrong. Please try again or email us directly.");
@@ -186,6 +190,7 @@ export const submitRegistration = createServerFn({ method: "POST" })
       phone: insert.phone,
       playerGrade: insert.player_grade,
       playerAge: insert.player_age,
+      shirtSize: insert.shirt_size,
       skillLevel: insert.skill_level,
       siblingNote: insert.sibling_note,
       allergies: insert.allergies,

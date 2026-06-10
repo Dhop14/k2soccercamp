@@ -8,6 +8,7 @@ export type RegistrationEmailData = {
   phone: string;
   playerGrade: number;
   playerAge: number;
+  shirtSize: string;
   skillLevel: string | null;
   siblingNote: string | null;
   allergies: string;
@@ -49,6 +50,7 @@ export function registrationSummarySections(
           "Age / Grade",
           `${data.playerAge} · Grade ${data.playerGrade} (incoming grade)`,  
         ],
+        ["Shirt size", data.shirtSize],
         ["Skill level", display(data.skillLevel)],
         ["Sibling note", display(data.siblingNote)],
       ],

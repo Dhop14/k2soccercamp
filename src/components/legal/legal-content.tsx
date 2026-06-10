@@ -196,8 +196,9 @@ export function PrivacyPolicyContent() {
         <p>
           When you register, we collect player and parent/guardian contact information, emergency
           contacts, health and safety information (allergies, conditions, medications, optional
-          health notes), and agreement records (eligibility, liability waiver, health attestation,
-          emergency medical authorization, optional photo release).
+          health notes), camp logistics details such as shirt size, and agreement records
+          (eligibility, liability waiver, health attestation, emergency medical authorization,
+          optional photo release).
         </p>
       </section>
       <section className="space-y-4">

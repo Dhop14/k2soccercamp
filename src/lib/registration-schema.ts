@@ -7,6 +7,7 @@ import {
   EMERGENCY_CONSENT_VERSION,
   HEALTH_FORM_VERSION,
   REGISTRATION_GRADE_BASIS,
+  SHIRT_SIZES,
   SKILL_LEVELS,
   WAIVER_VERSION,
 } from "@/lib/camp";
@@ -25,6 +26,14 @@ const registrationFormBaseSchema = z.object({
     .number()
     .int()
     .refine((g) => (CAMP_GRADES as readonly number[]).includes(g), "Grade must be 4–8"),
+  shirt_size: z
+    .string()
+    .trim()
+    .refine(
+      (size): size is (typeof SHIRT_SIZES)[number] =>
+        (SHIRT_SIZES as readonly string[]).includes(size),
+      "Select a shirt size",
+    ),
   skill_level: z.union([z.enum(SKILL_LEVELS), z.literal("")]).optional(),
   parent_name: z.string().trim().min(1, "Required").max(120),
   email: z.string().trim().email("Invalid email").max(255),
@@ -111,6 +120,7 @@ export function toRegistrationInsert(data: RegistrationSubmitPayload) {
     player_name: data.player_name,
     player_age: data.player_age,
     player_grade: data.player_grade,
+    shirt_size: data.shirt_size,
     grade_basis: REGISTRATION_GRADE_BASIS,
     skill_level: data.skill_level || null,
     parent_name: data.parent_name,

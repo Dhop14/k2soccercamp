@@ -29,6 +29,9 @@ function parentBody(data: RegistrationEmailData) {
       Payment will be handled at check-in on the first day of camp.
       We accept Venmo, Cash, and Zelle.
     </p>
+    <p>
+      A follow up email will be sent out as a reminder a few days before camp starts, with final details and directions.
+    </p>
     <p><strong>Camp details</strong></p>
     <ul>
       <li>Dates: ${escapeHtml(CAMP_DATES_LABEL)}</li>

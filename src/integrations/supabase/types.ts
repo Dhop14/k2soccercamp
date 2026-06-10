@@ -67,6 +67,7 @@ export type Database = {
           player_age: number
           player_grade: number
           player_name: string
+          shirt_size: string | null
           secondary_emergency_contact: string | null
           sibling_note: string | null
           skill_level: string | null
@@ -102,6 +103,7 @@ export type Database = {
           player_age: number
           player_grade: number
           player_name: string
+          shirt_size?: string | null
           secondary_emergency_contact?: string | null
           sibling_note?: string | null
           skill_level?: string | null
@@ -137,6 +139,7 @@ export type Database = {
           player_age?: number
           player_grade?: number
           player_name?: string
+          shirt_size?: string | null
           secondary_emergency_contact?: string | null
           sibling_note?: string | null
           skill_level?: string | null
@@ -182,6 +185,7 @@ export type Database = {
           p_player_age: number
           p_player_grade: number
           p_player_name: string
+          p_shirt_size: string
           p_secondary_emergency_contact?: string
           p_sibling_note?: string
           p_skill_level?: string

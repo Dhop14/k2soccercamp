@@ -20,6 +20,7 @@ import {
   CAMP_MIN_AGE,
   EMERGENCY_CONSENT_VERSION,
   HEALTH_FORM_VERSION,
+  SHIRT_SIZES,
   SKILL_LEVELS,
   WAIVER_VERSION,
 } from "@/lib/camp";
@@ -110,6 +111,30 @@ export function RegistrationStepPanels({
             />
             <FormField
               control={form.control}
+              name="shirt_size"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Shirt size <span className="text-pitch">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <select {...field} className={registrationSelectClass} required>
+                      <option value="">Select...</option>
+                      {SHIRT_SIZES.map((size) => (
+                        <option key={size} value={size}>
+                          {size}
+                        </option>
+                      ))}
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2">
+            <FormField
+              control={form.control}
               name="player_age"
               render={({ field }) => (
                 <FormItem>
@@ -134,27 +159,27 @@ export function RegistrationStepPanels({
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="skill_level"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Skill level (optional)</FormLabel>
+                  <FormControl>
+                    <select {...field} className={registrationSelectClass}>
+                      <option value="">Select...</option>
+                      {SKILL_LEVELS.map((o) => (
+                        <option key={o} value={o}>
+                          {o}
+                        </option>
+                      ))}
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
-          <FormField
-            control={form.control}
-            name="skill_level"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Skill level (optional)</FormLabel>
-                <FormControl>
-                  <select {...field} className={registrationSelectClass}>
-                    <option value="">Select…</option>
-                    {SKILL_LEVELS.map((o) => (
-                      <option key={o} value={o}>
-                        {o}
-                      </option>
-                    ))}
-                  </select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </div>
       );
 

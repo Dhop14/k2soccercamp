@@ -91,6 +91,7 @@ function Register() {
       player_name: "",
       player_age: undefined,
       player_grade: undefined,
+      shirt_size: "",
       skill_level: "",
       parent_name: "",
       email: "",

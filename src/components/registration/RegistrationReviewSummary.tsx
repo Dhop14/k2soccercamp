@@ -66,6 +66,7 @@ export function RegistrationReviewSummary({ form, onEditStep }: RegistrationRevi
         <ReviewRow label="Player" value={v.player_name} />
         <ReviewRow label="Grade" value={gradeLabel} />
         <ReviewRow label="Age" value={v.player_age != null ? String(v.player_age) : null} />
+        <ReviewRow label="Shirt size" value={v.shirt_size} />
         <ReviewRow label="Skill level" value={v.skill_level || "Not specified"} />
       </ReviewSection>
 

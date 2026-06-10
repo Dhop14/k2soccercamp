@@ -6,7 +6,7 @@ Supabase (database) stays in the cloud; the Ubuntu server only needs API keys an
 
 ## Architecture
 
-```
+```text
 Internet → nginx (443) → systemd (k2-preview) → Node :3000
                               ↓
                     createServerFn (registration)
@@ -17,7 +17,7 @@ Internet → nginx (443) → systemd (k2-preview) → Node :3000
 ## Two kinds of environment variables
 
 | When | Where on Ubuntu | Examples |
-|------|-----------------|----------|
+| --- | --- | --- |
 | **Build time** | `$APP_DIR/.env` (read during `npm run build`) | `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_TURNSTILE_SITE_KEY` |
 | **Runtime** | systemd `EnvironmentFile` (read when Node starts) | `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY` |
 
@@ -95,11 +95,39 @@ Use Certbot for TLS. After changing **runtime** env, restart the service—not o
 
 ### 7. Supabase migration (not on Ubuntu)
 
-Apply SQL in [`supabase/migrations/`](../supabase/migrations/) via Supabase Dashboard → SQL, or:
+Apply SQL in [`supabase/migrations/`](../supabase/migrations/) from your development machine, not the Ubuntu app server.
+
+Recommended on Windows / PowerShell from the repo root:
+
+```powershell
+cd J:\Personal\Kickstart
+npx supabase login
+npx supabase link --project-ref clkfejsrjaskiwodtuju
+npx supabase db push
+```
+
+Notes:
+
+- Run commands from the repository root, not from inside `supabase/migrations/`.
+- `npx` is the safest default. Do not rely on a global `supabase` install being present.
+- The first `npx supabase ...` command may prompt to download the CLI package. Accept it.
+- `link` or `db push` may prompt for the remote database password.
+- The project ref above matches [`supabase/config.toml`](../supabase/config.toml).
+
+If you prefer a reusable local install instead of `npx`, add the CLI as a dev dependency and run it through `npx` the same way:
 
 ```bash
-supabase db push
+npm install supabase --save-dev
+npx supabase db push
 ```
+
+Fallback if CLI access is blocked: open Supabase Dashboard → SQL Editor, paste the contents of the needed migration file, and run it manually.
+
+After `db push`, verify:
+
+- `public.registrations` includes any new columns from the migration
+- `public.submit_registration(...)` reflects any new RPC arguments
+- a test registration succeeds and stores the new data
 
 Required for registration v2: `camp_settings`, `submit_registration()`, revoked anon `INSERT`.
 
@@ -194,7 +222,7 @@ If `RESEND_API_KEY` is unset, registrations still save; emails are skipped and l
 ## Troubleshooting
 
 | Symptom | Likely cause |
-|---------|----------------|
+| --- | --- |
 | Form loads but submit fails | Missing `SUPABASE_SERVICE_ROLE_KEY` or migration not applied |
 | “Bot verification failed” | Turnstile secret missing/wrong, or domain not allowed in Cloudflare |
 | No confirmation email | `RESEND_API_KEY` unset or domain not verified |

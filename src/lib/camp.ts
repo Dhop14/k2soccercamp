@@ -46,3 +46,14 @@ export const REGISTRATION_CONTACT_EMAIL = "info@k2soccercamp.com";
 
 export const SKILL_LEVELS = ["Beginner", "Intermediate", "Advanced"] as const;
 
+export const SHIRT_SIZES = [
+  "Youth Small",
+  "Youth Medium",
+  "Youth Large",
+  "Youth XL",
+  "Adult Small",
+  "Adult Medium",
+  "Adult Large",
+  "Adult XL",
+] as const;
+

@@ -25,7 +25,7 @@ export const REGISTRATION_WIZARD_STEPS: readonly RegistrationWizardStep[] = [
     label: "Player",
     title: "Player info",
     description: "Who's joining camp this summer?",
-    fields: ["player_name", "player_age", "player_grade", "skill_level"],
+    fields: ["player_name", "player_age", "player_grade", "shirt_size", "skill_level"],
   },
   {
     id: "parent",
