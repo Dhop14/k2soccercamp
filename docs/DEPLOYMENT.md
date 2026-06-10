@@ -114,14 +114,41 @@ From your machine or on the server:
 Or manually:
 
 ```bash
-cd /var/www/k2-preview
-git pull
-npm install
-NODE_OPTIONS=--max-old-space-size=1056 npm run build
+APP_DIR=/var/www/k2-preview
+APP_USER="$(stat -c '%U' "$APP_DIR")"
+
+sudo -u "$APP_USER" -H git -C "$APP_DIR" pull --ff-only
+sudo -u "$APP_USER" -H npm --prefix "$APP_DIR" install
+sudo -u "$APP_USER" -H bash -lc "cd '$APP_DIR' && NODE_OPTIONS=--max-old-space-size=1056 npm run build"
+
 sudo systemctl restart k2-preview
-sudo systemctl status k2-preview --no-pager
-sudo journalctl -u k2-preview -n 60 --no-pager
+sudo systemctl status k2-preview --no-pager -l
+sudo journalctl -u k2-preview --since '10 minutes ago' --no-pager -l
 ```
+
+This avoids Git's "detected dubious ownership" error by running Git and build steps as the app directory owner instead of root.
+
+Optional one-time helper so you can run `k2deploy` any time:
+
+```bash
+printf '%s\n' \
+'k2deploy() {' \
+'    set -euo pipefail' \
+'    APP_DIR=/var/www/k2-preview' \
+'    APP_USER="$(stat -c '\''%U'\'' "$APP_DIR")"' \
+'    sudo -u "$APP_USER" -H git -C "$APP_DIR" pull --ff-only' \
+'    sudo -u "$APP_USER" -H npm --prefix "$APP_DIR" install' \
+'    sudo -u "$APP_USER" -H bash -lc "cd '\''$APP_DIR'\'' && NODE_OPTIONS=--max-old-space-size=1056 npm run build"' \
+'    sudo systemctl restart k2-preview' \
+'    sudo systemctl status k2-preview --no-pager -l' \
+'    sudo journalctl -u k2-preview --since '\''10 minutes ago'\'' --no-pager -l' \
+'}' \
+>> ~/.bashrc
+
+source ~/.bashrc
+```
+
+If your SSH session appears stuck after pasting, press `Ctrl+C` once and run `reset`.
 
 **Order matters:** if you add new `VITE_*` vars, rebuild. If you only change server secrets in `/etc/k2-preview/env`, restart systemd without rebuild.
 
