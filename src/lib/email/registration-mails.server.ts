@@ -71,6 +71,19 @@ function adminBody(data: RegistrationEmailData) {
 
 type ResendAttachment = { filename: string; content: string };
 
+function parseAdminRecipients(raw: string | undefined): string | string[] {
+  const recipients = (raw ?? "")
+    .split(/[;,\n]+/)
+    .map((entry) => entry.trim().replace(/^['\"]|['\"]$/g, ""))
+    .filter(Boolean);
+
+  const uniqueRecipients = [...new Set(recipients)];
+
+  if (uniqueRecipients.length === 0) return REGISTRATION_CONTACT_EMAIL;
+  if (uniqueRecipients.length === 1) return uniqueRecipients[0];
+  return uniqueRecipients;
+}
+
 async function sendResend(params: {
   to: string | string[];
   subject: string;
@@ -119,7 +132,9 @@ export async function sendRegistrationEmails(data: RegistrationEmailData) {
     html: parentBody(data),
   });
 
-  const adminEmail = process.env.REGISTRATION_ADMIN_EMAIL ?? REGISTRATION_CONTACT_EMAIL;
+  const adminEmail = parseAdminRecipients(process.env.REGISTRATION_ADMIN_EMAIL);
+  const adminRecipientCount = Array.isArray(adminEmail) ? adminEmail.length : 1;
+  console.info(`[email] admin recipients configured: ${adminRecipientCount}`);
   let adminAttachments: ResendAttachment[] | undefined;
 
   try {
