@@ -26,13 +26,22 @@ function parentBody(data: RegistrationEmailData) {
     <p>Hi ${escapeHtml(data.parentName)},</p>
     <p>
       We've received ${escapeHtml(data.playerName)}'s registration for K2 Soccer Camp.
-      We'll follow up with payment instructions and details for day one.
+      Payment will be handled at check-in on the first day of camp.
+      We accept Venmo, Cash, and Zelle.
     </p>
     <p><strong>Camp details</strong></p>
     <ul>
       <li>Dates: ${escapeHtml(CAMP_DATES_LABEL)}</li>
       <li>Location: ${escapeHtml(CAMP_REGION)}</li>
       <li>Tuition: ${escapeHtml(CAMP_TUITION_LABEL)}</li>
+    </ul>
+    <p><strong>Please bring for each camp day</strong></p>
+    <ul>
+      <li>Proper soccer attire</li>
+      <li>Shin guards</li>
+      <li>Cleats</li>
+      <li>Water</li>
+      <li>Sunscreen</li>
     </ul>
     <p>
       A copy of your registration summary is attached for your records.
