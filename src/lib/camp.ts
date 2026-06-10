@@ -15,7 +15,9 @@ export const CAMP_DATES_LABEL = "July 13–16, 2026";
 
 export const CAMP_HOURS_LABEL = "9:00 AM – 12:00 PM";
 
-export const CAMP_TUITION_LABEL = "$225 per player";
+export const CAMP_TUITION_AMOUNT = "$200";
+
+export const CAMP_TUITION_LABEL = `${CAMP_TUITION_AMOUNT} per player`;
 
 export const CAMP_GRADES = [3, 4, 5, 6, 7, 8] as const;
 

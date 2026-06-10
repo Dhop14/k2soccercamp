@@ -6,7 +6,13 @@ import { RegistrationCta } from "@/components/registration/RegistrationCta";
 import { RegistrationStatusBadge } from "@/components/registration/RegistrationStatusBadge";
 import { SiteLayout } from "@/components/site/Layout";
 import { useRegistrationStatus } from "@/hooks/use-registration-status";
-import { CAMP_HOURS_LABEL, CAMP_REGION, CAMP_VENUE_SHORT } from "../lib/camp";
+import {
+  CAMP_HOURS_LABEL,
+  CAMP_REGION,
+  CAMP_TUITION_AMOUNT,
+  CAMP_TUITION_LABEL,
+  CAMP_VENUE_SHORT,
+} from "../lib/camp";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -15,7 +21,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "A four-day summer soccer camp for girls 3rd through 8th grade in Morris County, NJ. Venue TBD. Led by award-winning high school coaches. $225 per player.",
+          `A four-day summer soccer camp for girls 3rd through 8th grade in Morris County, NJ. Venue TBD. Led by award-winning high school coaches. ${CAMP_TUITION_LABEL}.`,
       },
       { property: "og:title", content: "K2" },
       {
@@ -35,7 +41,7 @@ const tickerItems = [
   "July 13–16",
   "9:00 AM – 12:00 PM",
   "All Skill Levels",
-  "$225 per Player",
+  `${CAMP_TUITION_AMOUNT} per Player`,
   "Veteran Coaches",
 ];
 
@@ -88,7 +94,7 @@ function Index() {
                 </div>
                 <div>
                   <dt className="eyebrow">Tuition</dt>
-                  <dd className="type-display-sm mt-2">$225</dd>
+                  <dd className="type-display-sm mt-2">{CAMP_TUITION_AMOUNT}</dd>
                 </div>
                 <div className="col-span-2 sm:col-span-1">
                   <dt className="eyebrow">Location</dt>
