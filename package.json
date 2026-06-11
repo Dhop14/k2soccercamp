@@ -16,7 +16,8 @@
     "format": "prettier --write .",
     "registration:status": "node scripts/set-registration.mjs status",
     "registration:open": "node scripts/set-registration.mjs open",
-    "registration:close": "node scripts/set-registration.mjs close"
+    "registration:close": "node scripts/set-registration.mjs close",
+    "registration:checklist": "node scripts/generate-checkin-checklist.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

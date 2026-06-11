@@ -213,6 +213,80 @@ node scripts/set-registration.mjs status --env-file /etc/k2-preview/env
 
 Requires the service role key (not the anon key). Changes are live immediately; refresh the browser to see updated badges and buttons.
 
+## Generate camp-day check-in PDF (admin CLI)
+
+You can generate a printable PDF checklist of current registrations directly on the Ubuntu host.
+The command both saves the PDF to disk and emails it to `REGISTRATION_ADMIN_EMAIL`.
+
+From the app directory:
+
+```bash
+cd /var/www/k2-preview
+npm run registration:checklist -- --env-file /etc/k2-preview/env --camp-day "July 13, 2026"
+```
+
+Default output path:
+
+```text
+/var/www/k2-preview/exports/checkin-YYYY-MM-DD.pdf
+```
+
+Optional filters and output path:
+
+```bash
+# Include all statuses (not just submitted)
+npm run registration:checklist -- --env-file /etc/k2-preview/env --include-all-statuses
+
+# Explicit status filter
+npm run registration:checklist -- --env-file /etc/k2-preview/env --status submitted
+
+# Custom output file
+npm run registration:checklist -- --env-file /etc/k2-preview/env --output /var/www/k2-preview/exports/checkin-day1.pdf
+```
+
+The script uses `SUPABASE_SERVICE_ROLE_KEY`, so keep the env file restricted (`chmod 600`).
+It also requires `RESEND_API_KEY` and `REGISTRATION_ADMIN_EMAIL` to deliver the PDF attachment.
+
+### Validate checklist generation and email delivery
+
+Run this once before camp day to confirm both file output and admin delivery are working.
+
+1. Confirm runtime env contains all required values in `/etc/k2-preview/env`:
+    - `SUPABASE_URL` (or `VITE_SUPABASE_URL`)
+    - `SUPABASE_SERVICE_ROLE_KEY`
+    - `RESEND_API_KEY`
+    - `REGISTRATION_ADMIN_EMAIL`
+1. Temporarily set `REGISTRATION_ADMIN_EMAIL` to an inbox you control (or include your inbox in the comma-separated list).
+1. Generate a test checklist with a deterministic output path:
+
+```bash
+cd /var/www/k2-preview
+npm run registration:checklist -- --env-file /etc/k2-preview/env --camp-day "July 13, 2026" --output /var/www/k2-preview/exports/checkin-test.pdf
+```
+
+1. Verify CLI output includes:
+    - `Generated checklist: ...`
+    - `Registrant count: ...`
+    - `Admin email sent (...)`
+1. Verify the PDF exists and is not empty:
+
+```bash
+ls -lh /var/www/k2-preview/exports/checkin-test.pdf
+```
+
+1. Verify the admin inbox received the message with a PDF attachment and that the attachment opens.
+1. Optional: compare filters to sanity-check counts:
+
+```bash
+# default filter (submitted)
+npm run registration:checklist -- --env-file /etc/k2-preview/env --status submitted
+
+# all statuses
+npm run registration:checklist -- --env-file /etc/k2-preview/env --include-all-statuses
+```
+
+1. Optional failure test: temporarily set an invalid `RESEND_API_KEY` and rerun once to verify the command fails loudly on email delivery.
+
 ## Optional: dev without Turnstile / email
 
 If `TURNSTILE_SECRET_KEY` is unset, server skips Turnstile verification (local dev only—set keys in production).

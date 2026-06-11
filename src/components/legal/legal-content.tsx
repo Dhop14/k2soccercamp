@@ -13,8 +13,7 @@ const proseClass =
 export function LegalDevNotice() {
   return (
     <p className="rounded-sm border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-foreground not-prose">
-      <strong>Important:</strong> Placeholder text for development. Replace with attorney-reviewed
-      language before accepting production registrations.
+      <strong>Important:</strong> Please review the content of these legal forms carefully. They contain important information about your rights, responsibilities, and the camp&apos;s policies. If you have any questions or need clarification on any section, contact us at <a href={`mailto:${REGISTRATION_CONTACT_EMAIL}`} className="underline">{REGISTRATION_CONTACT_EMAIL}</a>.
     </p>
   );
 }
@@ -22,8 +21,7 @@ export function LegalDevNotice() {
 export function HealthDevNotice() {
   return (
     <p className="rounded-sm border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-foreground not-prose">
-      <strong>Important:</strong> Placeholder language for development. Review before
-      camp.
+      <strong>Important:</strong> Please provide complete and accurate health information during registration to help us keep your player safe. This information is voluntary but critical for our staff to understand and accommodate your child&apos;s needs during camp. If you have any questions about the health form, contact us at{" "}
     </p>
   );
 }

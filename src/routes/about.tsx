@@ -85,7 +85,7 @@ function About() {
                 </li>
                 <li className="flex gap-3">
                   <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
-                  GMC Champion
+                  2025 Greater Middlesex County Champion
                 </li>
                 <li className="flex gap-3">
                   <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
@@ -100,7 +100,7 @@ function About() {
                 Coach Kim has built a winning culture through technical detail,
                 disciplined team play, and player first leadership. Her sessions
                 are high-energy, purposeful, and designed to help girls develop
-                confidence, decision-making, and game-ready habits that carry into
+                confidence, decision making, and game ready habits that carry into
                 every season.
               </p>
             </div>
@@ -141,7 +141,7 @@ function About() {
                 </li>
               </ul>
               <p className="mt-6 text-muted-foreground text-pretty">
-                Coach Kurt brings a rare blend of sideline leadership and game-level
+                Coach Kurt brings a rare blend of sideline leadership and game level
                 perspective. From varsity girls soccer to top youth competition, he helps
                 players build confidence, sharpen decision making, and compete with purpose.
               </p>
