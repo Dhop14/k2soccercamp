@@ -85,7 +85,7 @@ export async function buildRegistrationPdf(data: RegistrationEmailData): Promise
   });
 
   doc.font("Helvetica-Bold").fontSize(20).fillColor("#111111").text("K2 Soccer Camp");
-  doc.font("Helvetica-Bold").fontSize(14).text("Camper registration record");
+  doc.font("Helvetica-Bold").fontSize(14).text("Registration Record");
   doc.moveDown(0.35);
   doc.font("Helvetica-Bold").fontSize(16).fillColor("#0d5c2e").text(data.playerName);
   doc

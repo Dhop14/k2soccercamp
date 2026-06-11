@@ -21,7 +21,7 @@ function escapeHtml(s: string) {
     .replace(/"/g, "&quot;");
 }
 
-function parentBody(data: RegistrationEmailData) {
+function parentBody(data: RegistrationEmailData, hasAttachment: boolean) {
   return `
     <p>Hi ${escapeHtml(data.parentName)},</p>
     <p>
@@ -46,15 +46,17 @@ function parentBody(data: RegistrationEmailData) {
       <li>Water</li>
       <li>Sunscreen</li>
     </ul>
-    <p>
-      A copy of your registration summary is attached for your records.
-    </p>
+    ${
+      hasAttachment
+        ? "<p>A copy of your registration summary is attached for your records.</p>"
+        : "<p>Your registration summary is included below in our records. If you need a PDF copy, reply to this email and we can send one.</p>"
+    }
     <p>Questions? Contact us at ${escapeHtml(REGISTRATION_CONTACT_EMAIL)}.</p>
     <p>— K2 Soccer Camp</p>
   `;
 }
 
-function adminBody(data: RegistrationEmailData) {
+function adminBody(data: RegistrationEmailData, hasAttachment: boolean) {
   const sections = registrationSummarySections(data)
     .map((section) => {
       const rows = section.rows
@@ -66,7 +68,7 @@ function adminBody(data: RegistrationEmailData) {
       return `<h3 style="margin:20px 0 8px;font-size:14px;text-transform:uppercase;letter-spacing:0.04em;color:#333">${escapeHtml(section.title)}</h3><table border="1" cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:640px">${rows}</table>`;
     })
     .join("");
-  return `<p>New registration for <strong>${escapeHtml(data.playerName)}</strong>. Full details are below; a PDF copy is attached.</p>${sections}`;
+  return `<p>New registration for <strong>${escapeHtml(data.playerName)}</strong>. Full details are below${hasAttachment ? "; a PDF copy is attached." : "."}</p>${sections}`;
 }
 
 type ResendAttachment = { filename: string; content: string };
@@ -74,7 +76,7 @@ type ResendAttachment = { filename: string; content: string };
 function parseAdminRecipients(raw: string | undefined): string | string[] {
   const recipients = (raw ?? "")
     .split(/[;,\n]+/)
-    .map((entry) => entry.trim().replace(/^['\"]|['\"]$/g, ""))
+    .map((entry) => entry.trim().replace(/^['"]|['"]$/g, ""))
     .filter(Boolean);
 
   const uniqueRecipients = [...new Set(recipients)];
@@ -126,29 +128,30 @@ async function sendResend(params: {
 }
 
 export async function sendRegistrationEmails(data: RegistrationEmailData) {
-  const parentResult = await sendResend({
-    to: data.email,
-    subject: "K2 Soccer Camp — registration received",
-    html: parentBody(data),
-  });
-
   const adminEmail = parseAdminRecipients(process.env.REGISTRATION_ADMIN_EMAIL);
   const adminRecipientCount = Array.isArray(adminEmail) ? adminEmail.length : 1;
   console.info(`[email] admin recipients configured: ${adminRecipientCount}`);
-  let adminAttachments: ResendAttachment[] | undefined;
+  let attachments: ResendAttachment[] | undefined;
 
   try {
     const { buffer, filename } = await buildRegistrationPdf(data);
-    adminAttachments = [{ filename, content: buffer.toString("base64") }];
+    attachments = [{ filename, content: buffer.toString("base64") }];
   } catch (err) {
     console.error("[email] PDF generation failed:", err);
   }
 
+  const parentResult = await sendResend({
+    to: data.email,
+    subject: "K2 Soccer Camp — registration received",
+    html: parentBody(data, Boolean(attachments?.length)),
+    attachments,
+  });
+
   const adminResult = await sendResend({
     to: adminEmail,
     subject: `New K2 registration: ${data.playerName}`,
-    html: adminBody(data),
-    attachments: adminAttachments,
+    html: adminBody(data, Boolean(attachments?.length)),
+    attachments,
   });
 
   return { parentResult, adminResult };
