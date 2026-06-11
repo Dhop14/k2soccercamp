@@ -57,9 +57,11 @@ function Contact() {
           </a> */}
           <div className="rounded-sm border border-border p-8">
             <MapPin className="h-5 w-5 text-pitch" />
-            <p className="eyebrow mt-6">Location</p>
+            <p className="eyebrow mt-6">Camp Location</p>
             <p className="mt-2 font-sans text-xl font-medium leading-normal">
-              Morris County, NJ
+              Morris Hills High School
+              <br />
+              520 West Main Street Rockaway, NJ 07866
             </p>
           </div>
         </div>
