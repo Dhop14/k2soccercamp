@@ -35,7 +35,7 @@ function parentBody(data: RegistrationEmailData) {
     <p><strong>Camp details</strong></p>
     <ul>
       <li>Dates: ${escapeHtml(CAMP_DATES_LABEL)}</li>
-      <li>Location: ${escapeHtml(CAMP_REGION)}</li>
+      <li>Location: Morris Hills High School, 520 West Main Street, Rockaway, NJ 07866</li>
       <li>Tuition: ${escapeHtml(CAMP_TUITION_LABEL)}</li>
     </ul>
     <p><strong>Please bring for each camp day</strong></p>
