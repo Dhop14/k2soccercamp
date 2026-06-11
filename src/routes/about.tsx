@@ -76,31 +76,31 @@ function About() {
               <h2 className="mt-2 font-display text-3xl">Head Coach, OBHS Girls Soccer</h2>
               <ul className="mt-6 space-y-3 text-muted-foreground">
                 <li className="flex gap-3">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
-                  Head Coach, Old Bridge High School Girls Soccer
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-pitch" />
+                  <span className="min-w-0">Head Coach, Old Bridge High School Girls Soccer</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
-                  Two-time Coach of the Year
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-pitch" />
+                  <span className="min-w-0">Two-time Coach of the Year</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
-                  2025 Greater Middlesex County Champion
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-pitch" />
+                  <span className="min-w-0">2025 Greater Middlesex County Champion</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
-                  17+ years of coaching experience
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-pitch" />
+                  <span className="min-w-0">17+ years of coaching experience</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
-                  US Soccer Licensed Coach
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-pitch" />
+                  <span className="min-w-0">US Soccer Licensed Coach</span>
                 </li>
               </ul>
               <p className="mt-6 text-muted-foreground text-pretty">
                 Coach Kim has built a winning culture through technical detail,
                 disciplined team play, and player first leadership. Her sessions
-                are high-energy, purposeful, and designed to help girls develop
-                confidence, decision making, and game ready habits that carry into
+                are high energy, purposeful, and designed to help girls develop
+                confidence and game ready habits that carry into
                 every season.
               </p>
             </div>
@@ -123,21 +123,20 @@ function About() {
               <h2 className="mt-2 font-display text-3xl">Varsity Assistant Coach, Morris Hills Girls Soccer</h2>
               <ul className="mt-6 space-y-3 text-muted-foreground">
                 <li className="flex gap-3">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
-                  Varsity Assistant Coach, Morris Hills Girls Soccer
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-pitch" />
+                  <span className="min-w-0">Varsity Assistant Coach, Morris Hills Girls Soccer</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
-                  12 years coaching experience at the youth and high school girls level
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-pitch" />
+                  <span className="min-w-0">12 years coaching experience at the youth and high school girls level</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
-                  26 years of referee experience
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-pitch" />
+                  <span className="min-w-0">26 years of referee experience</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-pitch" />
-                  Currently coaching multiple teams in Denville and Rockaway, including
-                  Denville U16 Girls Flight 1
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-pitch" />
+                  <span className="min-w-0">Coaches multiple Denville/Rockaway teams, including Denville U16 Girls Flight 1</span>
                 </li>
               </ul>
               <p className="mt-6 text-muted-foreground text-pretty">
