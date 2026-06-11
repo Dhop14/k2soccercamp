@@ -1,4 +1,5 @@
-import PDFDocument from "pdfkit";
+import type PDFDocumentType from "pdfkit";
+import PDFDocumentStandalone from "pdfkit/js/pdfkit.standalone.js";
 
 import {
   CAMP_DATES_LABEL,
@@ -17,14 +18,17 @@ const PAGE_BOTTOM_MARGIN = 50;
 const SECTION_TITLE_HEIGHT = 28;
 const FIELD_LINE_HEIGHT = 14;
 
-function ensureSpace(doc: InstanceType<typeof PDFDocument>, needed: number) {
+const PDFDocument = PDFDocumentStandalone as unknown as typeof PDFDocumentType;
+type PdfDoc = InstanceType<typeof PDFDocumentType>;
+
+function ensureSpace(doc: PdfDoc, needed: number) {
   const bottom = doc.page.height - PAGE_BOTTOM_MARGIN;
   if (doc.y + needed > bottom) {
     doc.addPage();
   }
 }
 
-function writeSectionHeading(doc: InstanceType<typeof PDFDocument>, title: string) {
+function writeSectionHeading(doc: PdfDoc, title: string) {
   ensureSpace(doc, SECTION_TITLE_HEIGHT + 8);
   doc.moveDown(0.35);
   const x = doc.page.margins.left;
@@ -47,7 +51,7 @@ function writeSectionHeading(doc: InstanceType<typeof PDFDocument>, title: strin
   doc.moveDown(0.2);
 }
 
-function writeField(doc: InstanceType<typeof PDFDocument>, label: string, value: string) {
+function writeField(doc: PdfDoc, label: string, value: string) {
   const width = doc.page.width - doc.page.margins.left - doc.page.margins.right;
   const text = value || "—";
 
