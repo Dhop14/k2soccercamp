@@ -45,6 +45,10 @@ function parentBody(data: RegistrationEmailData, hasAttachment: boolean) {
       <li>Cleats</li>
       <li>Water</li>
       <li>Sunscreen</li>
+      <li>Soccer ball</li>
+      <li>Light snack</li>
+      <li>Sneakers in case of rain</li>
+      <li>Positive attitude and readiness to have fun!</li>
     </ul>
     ${
       hasAttachment
